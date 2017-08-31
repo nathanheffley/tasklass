@@ -50,9 +50,16 @@ class TodosController extends Controller
     {
         $todo = Todo::find($id);
 
+        if (request('completed') !== null) {
+            if (request('completed')) {
+                $todo->complete();
+            } else {
+                $todo->markIncomplete();
+            }
+        }
+
         $todo->update([
             'name' => request('name') ? request('name') : $todo->name,
-            'completed' => request('completed') ? request('completed') : $todo->completed,
         ]);
 
         return response()->json(['todo' => $todo], 200);

@@ -36,7 +36,36 @@ class UpdateTodosTest extends TestCase
         tap(Todo::first(), function ($todo) use ($user) {
             $this->assertTrue($todo->user->is($user));
             $this->assertEquals('Sample Todo', $todo->name);
-            $this->assertTrue($todo->completed, 'Failed asserting that the todo is complete.');
+            $this->assertTrue($todo->completed, 'Failed asserting that the todo is completed.');
+        });
+    }
+
+    /** @test */
+    public function markingATodoIncomplete()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $todo = factory(Todo::class)->create([
+            'user_id' => $user->id,
+            'name' => 'Sample Todo',
+            'completed' => true,
+        ]);
+
+        $response = $this->actingAs($user)->put("/todos/{$todo->id}", [
+            'completed' => false,
+        ]);
+
+        $response->assertStatus(200);
+
+        // Assert that the server responds with success data
+        $this->assertEquals('Sample Todo', $response->original['todo']->name);
+        $this->assertFalse($response->original['todo']->completed, 'Failed asserting that the todo is incomplete.');
+
+        // Assert that the todo was updated in the database
+        tap(Todo::first(), function ($todo) use ($user) {
+            $this->assertTrue($todo->user->is($user));
+            $this->assertEquals('Sample Todo', $todo->name);
+            $this->assertFalse($todo->completed, 'Failed asserting that the todo is incomplete.');
         });
     }
 }
