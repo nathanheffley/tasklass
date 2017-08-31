@@ -18,7 +18,6 @@ class UpdateTodosTest extends TestCase
         $user = factory(User::class)->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
-            'name' => 'Sample Todo',
             'completed' => false,
         ]);
 
@@ -29,13 +28,11 @@ class UpdateTodosTest extends TestCase
         $response->assertStatus(200);
 
         // Assert that the server responds with success data
-        $this->assertEquals('Sample Todo', $response->original['todo']->name);
         $this->assertTrue($response->original['todo']->completed, 'Failed asserting that the todo is completed.');
 
         // Assert that the todo was updated in the database
         tap(Todo::first(), function ($todo) use ($user) {
             $this->assertTrue($todo->user->is($user));
-            $this->assertEquals('Sample Todo', $todo->name);
             $this->assertTrue($todo->completed, 'Failed asserting that the todo is completed.');
         });
     }
@@ -47,7 +44,6 @@ class UpdateTodosTest extends TestCase
         $user = factory(User::class)->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
-            'name' => 'Sample Todo',
             'completed' => true,
         ]);
 
@@ -58,13 +54,11 @@ class UpdateTodosTest extends TestCase
         $response->assertStatus(200);
 
         // Assert that the server responds with success data
-        $this->assertEquals('Sample Todo', $response->original['todo']->name);
         $this->assertFalse($response->original['todo']->completed, 'Failed asserting that the todo is incomplete.');
 
         // Assert that the todo was updated in the database
         tap(Todo::first(), function ($todo) use ($user) {
             $this->assertTrue($todo->user->is($user));
-            $this->assertEquals('Sample Todo', $todo->name);
             $this->assertFalse($todo->completed, 'Failed asserting that the todo is incomplete.');
         });
     }
