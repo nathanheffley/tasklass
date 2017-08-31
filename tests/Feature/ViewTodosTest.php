@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Todo;
+use App\User;
 use Tests\TestCase;
 use PHPUnit\Framework\Assert;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,11 +23,11 @@ class ViewTodosTest extends TestCase
         });
 
         Collection::macro('assertContains', function ($value) {
-            Assert::assertTrue($this->contains($value), "Failed asserting that the collection contains the specified value.");
+            Assert::assertTrue($this->contains($value), 'Failed asserting that the collection contains the specified value.');
         });
 
         Collection::macro('assertNotContains', function ($value) {
-            Assert::assertFalse($this->contains($value), "Failed asserting that the collection does not contain the specified value.");
+            Assert::assertFalse($this->contains($value), 'Failed asserting that the collection does not contain the specified value.');
         });
     }
 
