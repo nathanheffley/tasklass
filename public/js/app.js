@@ -10403,19 +10403,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Todo = function (_Component) {
     _inherits(Todo, _Component);
 
-    function Todo() {
+    function Todo(props) {
         _classCallCheck(this, Todo);
 
-        return _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
+
+        _this.state = {
+            details: _this.props.details
+        };
+
+        _this.complete = _this.complete.bind(_this);
+        return _this;
     }
 
     _createClass(Todo, [{
+        key: 'complete',
+        value: function complete() {
+            // Update completed state before sending request (perceived speed)
+            this.toggleCompleted();
+
+            window.axios.put('/todos/' + this.state.details.id, { 'completed': this.state.details.completed }).catch(function (error) {
+                // If there was a problem, set the state back to original value
+                this.toggleCompleted();
+            }.bind(this));
+        }
+    }, {
+        key: 'toggleCompleted',
+        value: function toggleCompleted() {
+            var details = this.state.details;
+            details.completed = !details.completed;
+            this.setState({ details: details });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                this.props.details.name
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'checkbox', checked: this.state.details.completed, onChange: this.complete }),
+                ' ',
+                this.state.details.name
             );
         }
     }]);
