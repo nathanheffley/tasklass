@@ -17,6 +17,7 @@ class TodosController extends Controller
         }
 
         $todos = Auth::user()->todos;
+
         return view('todos.index', compact('todos'));
     }
 

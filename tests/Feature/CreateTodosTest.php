@@ -2,12 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Todo;
+use App\User;
 use Tests\TestCase;
 use PHPUnit\Framework\Assert;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateTodosTest extends TestCase
