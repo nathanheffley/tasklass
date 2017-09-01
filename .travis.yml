@@ -3,6 +3,11 @@ language: php
 php:
   - '7.1'
 
+notifications:
+  slack:
+    rooms:
+      - secure: "GjTHJ++ErbnhEeTkR6GpMmlSew/zifASDbUNZGmbZP3aBzZ36jTkRFegJ5wb0SowONdQjvNUAfz7PLVjsJu1gD2DYce560Y+uCjKgHI1Y6JMWwSR7koUMs40JzL6b6Kq207WOVZarD/DPv9llw6NMO6eu0dGMqj2bNsjmApdIrhLTUk9P45uIH5dD9T7taF6jbDJkEAFNHkPD5BDFuVvw5fEFuX8aY8vcfu5Bq1XTIVEeMgEvntXd8gjWCtdRWHgM1x4z/93BWn21/E4SD16YaB2PH0Pj88WWrkkNCJXkvTf0rlIS2FayRSimRLKGigTgr55R29aAIIzqJtJ1dpLxRk0fMavy/pt5YwrfpnB48u20i1EgNWn05ThUlt7I11KIiFPAm2a1GOwyJ9LtGQ+7KhMEg/tfct0wYy69iOmzkP8LlWmfgT2xozCdLh+vT/RDcfcxRPeOF3P7Wu5Tx+98rE4+9f4nC7Zk9oFCBRZamvenrDCEvqkTnkwtcqvv8nZAtAedEpM3Dc5/6D0mJd7dsOD69X4cx4GoWrtdyLrGpYqzD8r2GHSDGfnxVCiDfnJrG3RwZHIqj1pPaD8h8lIzZ6nsy8eyOGDwVvwvx7/dRxdjLlpR5n8Ww6OvCn4RyXE3tL2XpLyiXRz7fi65hik3nNiF2QX9m1D3MvsTPM3aS8="
+
 before_script:
   - chmod 777 -R storage
   - cp .env.travis .env
