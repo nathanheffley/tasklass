@@ -10509,12 +10509,18 @@ var AddTodo = function (_Component) {
 
         _this.state = { name: '' };
 
+        _this.clearName = _this.clearName.bind(_this);
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
         return _this;
     }
 
     _createClass(AddTodo, [{
+        key: 'clearName',
+        value: function clearName() {
+            this.setState({ name: '' });
+        }
+    }, {
         key: 'handleChange',
         value: function handleChange(event) {
             this.setState({ name: event.target.value });
@@ -10525,7 +10531,7 @@ var AddTodo = function (_Component) {
             event.preventDefault();
             window.axios.post('/todos', { 'name': this.state.name }).then(function (response) {
                 this.props.addTodo(response.data.todo);
-                this.setState({ name: '' });
+                this.clearName();
             }.bind(this)).catch(function (error) {
                 console.log(error);
             });
@@ -10573,7 +10579,7 @@ var AddTodo = function (_Component) {
                                 { className: 'control' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'button',
-                                    { className: 'button is-link' },
+                                    { className: 'button is-link', type: 'button', onClick: this.clearName },
                                     'Cancel'
                                 )
                             )
