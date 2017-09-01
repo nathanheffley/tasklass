@@ -10411,7 +10411,8 @@ var Todo = function (_Component) {
         _this.state = {
             details: _this.props.details,
             checkboxId: 'todo-' + _this.props.details.id,
-            editing: false
+            editing: false,
+            oldName: _this.props.details.name
         };
 
         _this.complete = _this.complete.bind(_this);
@@ -10462,9 +10463,14 @@ var Todo = function (_Component) {
         value: function handleNameSave() {
             this.stopEditing();
 
-            window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).catch(function (error) {
+            window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).then(function (response) {
+                this.setState({ oldName: this.state.details.name });
+            }.bind(this)).catch(function (error) {
+                var details = this.state.details;
+                details.name = this.state.oldName;
+                this.setState({ details: details });
                 console.log(error);
-            });
+            }.bind(this));
         }
     }, {
         key: 'render',

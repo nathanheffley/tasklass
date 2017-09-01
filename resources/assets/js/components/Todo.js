@@ -7,6 +7,7 @@ export default class Todo extends Component {
             details: this.props.details,
             checkboxId: `todo-${this.props.details.id}`,
             editing: false,
+            oldName: this.props.details.name,
         }
 
         this.complete = this.complete.bind(this);
@@ -51,9 +52,15 @@ export default class Todo extends Component {
         this.stopEditing();
 
         window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
+        .then(function (response) {
+            this.setState({oldName: this.state.details.name});
+        }.bind(this))
         .catch(function (error) {
+            let details = this.state.details;
+            details.name = this.state.oldName;
+            this.setState({details: details});
             console.log(error);
-        });
+        }.bind(this));
     }
 
     render() {
