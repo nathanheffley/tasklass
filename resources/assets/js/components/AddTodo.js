@@ -27,11 +27,32 @@ export default class AddTodo extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="hidden" name="_token" value={window.Todo.token} />
-                <input name="name" value={this.state.name} onChange={this.handleChange} placeholder="todo" />
-                <button type="submit">Add Todo</button>
-            </form>
+            <div className="section">
+                <div className="container">
+                    <form className="add-todo" onSubmit={this.handleSubmit}>
+                        <input type="hidden" name="_token" value={window.Todo.token} />
+
+                        <div className="field">
+                            <div className="control">
+                                <input className="input"
+                                    type="text" name="name"
+                                    onChange={this.handleChange}
+                                    value={this.state.name}
+                                    placeholder="todo" />
+                            </div>
+                        </div>
+
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button className="button is-primary" type="submit">Add Todo</button>
+                            </div>
+                            <div className="control">
+                                <button className="button is-link">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         );
     }
 }
