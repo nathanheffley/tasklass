@@ -13114,3 +13114,12 @@ label.panel-block:hover {
   clip: auto;
 }
 
+.is-link {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip: ink;
+}
+
+.flex-right {
+  margin-left: auto;
+}
+

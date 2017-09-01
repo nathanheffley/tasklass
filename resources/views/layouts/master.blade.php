@@ -16,14 +16,7 @@
     </head>
     <body class="bg-dark">
         <div id="app">
-            <nav>
-                @if (Auth::check())
-                    <form action="/logout" method="POST">
-                        {{ csrf_field() }}
-                        <button type="submit">Log out</button>
-                    </form>
-                @endif
-            </nav>
+            @include('layouts.navbar')
 
             @yield('body')
         </div>

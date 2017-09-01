@@ -1,2 +1,10 @@
 @import "node_modules/bulma/bulma";
 @import "node_modules/font-awesome/scss/font-awesome";
+
+.is-link {
+    text-decoration-skip: ink;
+}
+
+.flex-right {
+    margin-left: auto;
+}
