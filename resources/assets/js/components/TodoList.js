@@ -22,14 +22,20 @@ export default class TodoList extends Component {
 
     render() {
         return (
-            <ul>
-                {
-                    Object
-                        .keys(this.state.todos)
-                        .map(key => <Todo key={key} details={this.state.todos[key]} />)
-                }
+            <div>
+                <section className="section">
+                    <div className="container">
+                        <ul>
+                            {
+                                Object
+                                    .keys(this.state.todos)
+                                    .map(key => <Todo key={key} details={this.state.todos[key]} />)
+                            }
+                        </ul>
+                    </div>
+                </section>
                 <AddTodo addTodo={this.addTodo} />
-            </ul>
+            </div>
         );
     }
 }

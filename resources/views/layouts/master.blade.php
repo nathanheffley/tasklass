@@ -14,19 +14,10 @@
         </script>
         <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
     </head>
-    <body class="bg-dark">
-        <div id="app">
-            <nav>
-                @if (Auth::check())
-                    <form action="/logout" method="POST">
-                        {{ csrf_field() }}
-                        <button type="submit">Log out</button>
-                    </form>
-                @endif
-            </nav>
+    <body>
+        @include('layouts.navbar')
 
-            @yield('body')
-        </div>
+        @yield('body')
 
         @stack('beforeScripts')
         <script src="{{ elixir('js/app.js') }}"></script>
