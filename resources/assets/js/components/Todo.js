@@ -5,6 +5,7 @@ export default class Todo extends Component {
         super(props);
         this.state = {
             details: this.props.details,
+            checkboxId: `todo-${this.props.details.id}`,
         }
 
         this.complete = this.complete.bind(this);
@@ -28,8 +29,26 @@ export default class Todo extends Component {
     }
 
     render() {
+        let todoClasses = "todo";
+        let checkboxLabel;
+
+        if (this.state.details.completed) {
+            todoClasses += " completed";
+            checkboxLabel = <span className="icon"><i className="fa fa-check-square-o"></i></span>;
+        } else {
+            checkboxLabel = <span className="icon"><i className="fa fa-square-o"></i></span>;
+        }
+
         return (
-            <li><input type="checkbox" checked={this.state.details.completed} onChange={this.complete} /> {this.state.details.name}</li>
+            <li className={todoClasses}>
+                <input id={this.state.checkboxId} className="todo--checkbox" type="checkbox"
+                    checked={this.state.details.completed}
+                    onChange={this.complete} />
+                <label htmlFor={this.state.checkboxId}>
+                    {checkboxLabel}
+                    <span className="todo--name">{this.state.details.name}</span>
+                </label>
+            </li>
         );
     }
 }

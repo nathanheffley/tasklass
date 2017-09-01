@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('body')
-    <div id="todo-list"></div>
+    <section class="section">
+        <div id="todo-list" class="container"></div>
+    </section>
 @endsection
 
 @push('beforeScripts')

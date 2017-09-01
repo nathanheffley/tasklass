@@ -13123,3 +13123,28 @@ label.panel-block:hover {
   margin-left: auto;
 }
 
+.todo {
+  margin-bottom: 1em;
+}
+
+.todo.completed {
+  color: #aaa;
+}
+
+.todo.completed .todo--name {
+  text-decoration: line-through;
+}
+
+.todo--checkbox {
+  display: none;
+}
+
+.todo .fa {
+  margin-right: 0.5em;
+  text-decoration: none;
+}
+
+.todo .fa-square-o {
+  padding-right: 3px;
+}
+

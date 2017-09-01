@@ -8,3 +8,26 @@
 .flex-right {
     margin-left: auto;
 }
+
+.todo {
+    margin-bottom: 1em;
+
+    &.completed {
+        color: #aaa;
+        .todo--name {
+            text-decoration: line-through;
+        }
+    }
+
+    &--checkbox {
+        display: none;
+    }
+
+    .fa {
+        margin-right: 0.5em;
+        text-decoration: none;
+    }
+    .fa-square-o {
+        padding-right: 3px;
+    }
+}
