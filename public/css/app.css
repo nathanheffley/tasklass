@@ -13124,7 +13124,23 @@ label.panel-block:hover {
 }
 
 .todo {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 2.25em;
   margin-bottom: 1em;
+}
+
+.todo--name {
+  padding-top: 1px;
+  padding-left: calc(0.625em);
+}
+
+.todo--checkbox {
+  display: none;
 }
 
 .todo.completed {
@@ -13133,10 +13149,6 @@ label.panel-block:hover {
 
 .todo.completed .todo--name {
   text-decoration: line-through;
-}
-
-.todo--checkbox {
-  display: none;
 }
 
 .todo .fa {

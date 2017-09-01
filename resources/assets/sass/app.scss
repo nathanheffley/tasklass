@@ -10,17 +10,25 @@
 }
 
 .todo {
+    align-items: center;
+    display: flex;
+    height: 2.25em;
     margin-bottom: 1em;
+
+    &--name {
+        padding-top: 1px;
+        padding-left: calc(0.625em);
+    }
+
+    &--checkbox {
+        display: none;
+    }
 
     &.completed {
         color: #aaa;
         .todo--name {
             text-decoration: line-through;
         }
-    }
-
-    &--checkbox {
-        display: none;
     }
 
     .fa {

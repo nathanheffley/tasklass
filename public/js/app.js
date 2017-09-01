@@ -10410,10 +10410,15 @@ var Todo = function (_Component) {
 
         _this.state = {
             details: _this.props.details,
-            checkboxId: 'todo-' + _this.props.details.id
+            checkboxId: 'todo-' + _this.props.details.id,
+            editing: false
         };
 
         _this.complete = _this.complete.bind(_this);
+        _this.startEditing = _this.startEditing.bind(_this);
+        _this.stopEditing = _this.stopEditing.bind(_this);
+        _this.handleNameChange = _this.handleNameChange.bind(_this);
+        _this.handleNameSave = _this.handleNameSave.bind(_this);
         return _this;
     }
 
@@ -10436,10 +10441,37 @@ var Todo = function (_Component) {
             this.setState({ details: details });
         }
     }, {
+        key: 'startEditing',
+        value: function startEditing() {
+            this.setState({ editing: true });
+        }
+    }, {
+        key: 'stopEditing',
+        value: function stopEditing() {
+            this.setState({ editing: false });
+        }
+    }, {
+        key: 'handleNameChange',
+        value: function handleNameChange(event) {
+            var details = this.state.details;
+            details.name = event.target.value;
+            this.setState({ details: details });
+        }
+    }, {
+        key: 'handleNameSave',
+        value: function handleNameSave() {
+            this.stopEditing();
+
+            window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var todoClasses = "todo";
             var checkboxLabel = void 0;
+            var nameElement = void 0;
 
             if (this.state.details.completed) {
                 todoClasses += " completed";
@@ -10456,6 +10488,35 @@ var Todo = function (_Component) {
                 );
             }
 
+            if (this.state.editing) {
+                nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'field has-addons' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'control' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'input', type: 'text', name: 'name',
+                            value: this.state.details.name,
+                            onChange: this.handleNameChange })
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'control' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'button',
+                            { className: 'button is-primary', onClick: this.handleNameSave },
+                            'Save'
+                        )
+                    )
+                );
+            } else {
+                nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { className: 'todo--name', onDoubleClick: this.startEditing },
+                    this.state.details.name
+                );
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 { className: todoClasses },
@@ -10465,13 +10526,9 @@ var Todo = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'label',
                     { htmlFor: this.state.checkboxId },
-                    checkboxLabel,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'span',
-                        { className: 'todo--name' },
-                        this.state.details.name
-                    )
-                )
+                    checkboxLabel
+                ),
+                nameElement
             );
         }
     }]);
