@@ -14,12 +14,10 @@
         </script>
         <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
     </head>
-    <body class="bg-dark">
-        <div id="app">
-            @include('layouts.navbar')
+    <body>
+        @include('layouts.navbar')
 
-            @yield('body')
-        </div>
+        @yield('body')
 
         @stack('beforeScripts')
         <script src="{{ elixir('js/app.js') }}"></script>
