@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\InvalidWeightException;
 
 class Todo extends Model
 {
@@ -32,6 +33,10 @@ class Todo extends Model
 
     public function setWeight($weight)
     {
+        if (! is_numeric($weight)) {
+            throw new InvalidWeightException;
+        }
+
         $this->update(['weight' => $weight]);
     }
 }

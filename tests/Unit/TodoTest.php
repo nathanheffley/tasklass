@@ -48,6 +48,17 @@ class TodoTest extends TestCase
         $this->assertEquals(3, $todo->fresh()->weight, 'Failed asserting that the todo weight was changed.');
     }
 
+    /**
+     * @test
+     * @expectedException App\Exceptions\InvalidWeightException
+     */
+    public function settingTodoWeightToNonNumericValueThrowsInvalidWeightException()
+    {
+        $todo = factory(Todo::class)->create();
+
+        $todo->setWeight('not a number');
+    }
+
     /** @test */
     public function todosCanBeFetchedInWeightedOrder()
     {
