@@ -37,4 +37,20 @@ class TodoTest extends TestCase
 
         $this->assertTrue($todo->fresh()->completed);
     }
+
+    /** @test */
+    public function todosCanBeFetchedInWeightedOrder()
+    {
+        $todoA = factory(Todo::class)->create(['weight' => 0]);
+        $todoB = factory(Todo::class)->create(['weight' => 1]);
+        $todoC = factory(Todo::class)->create(['weight' => -1]);
+        $todoD = factory(Todo::class)->create(['weight' => 2]);
+
+        $todos = Todo::ordered();
+
+        $this->assertEquals($todos[0]->id, $todoC->id);
+        $this->assertEquals($todos[1]->id, $todoA->id);
+        $this->assertEquals($todos[2]->id, $todoB->id);
+        $this->assertEquals($todos[3]->id, $todoD->id);
+    }
 }

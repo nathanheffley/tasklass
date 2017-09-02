@@ -10,6 +10,11 @@ class Todo extends Model
 
     protected $casts = ['completed' => 'boolean'];
 
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('weight', 'asc')->get();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
