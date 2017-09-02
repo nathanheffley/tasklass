@@ -9,5 +9,6 @@ $factory->define(App\Todo::class, function (Faker $faker) {
         },
         'name' => $faker->realText(12),
         'completed' => false,
+        'weight' => 0,
     ];
 });

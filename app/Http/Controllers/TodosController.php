@@ -41,6 +41,7 @@ class TodosController extends Controller
         $todo = Auth::user()->todos()->create([
             'name' => $data['name'],
             'completed' => false,
+            'weight' => 0,
         ]);
 
         return response()->json(['todo' => $todo], 200);

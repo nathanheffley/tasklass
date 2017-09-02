@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
 {
-    protected $fillable = ['name', 'completed'];
+    protected $fillable = ['name', 'completed', 'weight'];
 
     protected $casts = ['completed' => 'boolean'];
 
