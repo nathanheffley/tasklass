@@ -39,6 +39,16 @@ class TodoTest extends TestCase
     }
 
     /** @test */
+    public function todoWeightCanBeSet()
+    {
+        $todo = factory(Todo::class)->create(['weight' => 0]);
+
+        $todo->setWeight(3);
+
+        $this->assertEquals(3, $todo->fresh()->weight, 'Failed asserting that the todo weight was changed.');
+    }
+
+    /** @test */
     public function todosCanBeFetchedInWeightedOrder()
     {
         $todoA = factory(Todo::class)->create(['weight' => 0]);

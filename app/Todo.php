@@ -29,4 +29,9 @@ class Todo extends Model
     {
         $this->update(['completed' => false]);
     }
+
+    public function setWeight($weight)
+    {
+        $this->update(['weight' => $weight]);
+    }
 }
