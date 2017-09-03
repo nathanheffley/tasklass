@@ -16,7 +16,7 @@ class TodosController extends Controller
             return redirect('/login');
         }
 
-        $todos = Auth::user()->todos;
+        $todos = Auth::user()->orderedTodos();
 
         return view('todos.index', compact('todos'));
     }
