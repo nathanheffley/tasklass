@@ -21,17 +21,17 @@ class DatabaseSeeder extends Seeder
         factory(Todo::class)->create([
             'user_id' => $user->id,
             'name' => 'First Todo',
-            'completed' => false,
         ]);
         factory(Todo::class)->create([
             'user_id' => $user->id,
             'name' => 'Second Todo',
             'completed' => true,
+            'weight' => 2,
         ]);
         factory(Todo::class)->create([
             'user_id' => $user->id,
             'name' => 'Third Todo',
-            'completed' => false,
+            'weight' => 1,
         ]);
     }
 }
