@@ -12,3 +12,9 @@ $factory->define(App\Todo::class, function (Faker $faker) {
         'weight' => 0,
     ];
 });
+
+$factory->state(App\Todo::class, 'archived', function (Faker $faker) {
+    return [
+        'deleted_at' => new DateTime(),
+    ];
+});

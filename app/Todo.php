@@ -21,7 +21,7 @@ class Todo extends Model
 
     public function scopeArchived($query)
     {
-        return $query->withTrashed()->get();
+        return $query->onlyTrashed()->get();
     }
 
     public function user()
@@ -51,5 +51,10 @@ class Todo extends Model
     public function archive()
     {
         $this->delete();
+    }
+
+    public function unarchive()
+    {
+        $this->restore();
     }
 }

@@ -100,4 +100,25 @@ class TodoTest extends TestCase
         Todo::all()->assertNotContains($todo);
         Todo::archived()->assertContains($todo);
     }
+
+    /** @test */
+    public function fetchingArcivedTodosDoesNotReturnUnarchivedTodos()
+    {
+        $todoA = factory(Todo::class)->create();
+        $todoB = factory(Todo::class)->states('archived')->create();
+
+        Todo::archived()->assertNotContains($todoA);
+        Todo::archived()->assertContains($todoB);
+    }
+
+    /** @test */
+    public function todosCanBeRestoredFromArchive()
+    {
+        $todo = factory(Todo::class)->states('archived')->create();
+
+        $todo->unarchive();
+
+        Todo::all()->assertContains($todo);
+        Todo::archived()->assertNotContains($todo);
+    }
 }
