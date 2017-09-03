@@ -29,19 +29,28 @@ class TodosController extends Controller
             ])], 401);
         }
 
-        $data = request()->only(['name']);
+        $data = request()->only(['name', 'weight']);
 
         $validator = Validator::make($data, [
             'name' => ['required'],
+            'weight' => ['numeric', 'nullable'],
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        if (array_key_exists('weight', $data)) {
+            if ($data['weight'] == null) {
+                $data['weight'] = 0;
+            }
+        } else {
+            $data['weight'] = 0;
+        }
+
         $todo = Auth::user()->todos()->create([
             'name' => $data['name'],
             'completed' => false,
-            'weight' => 0,
+            'weight' => (int) $data['weight'],
         ]);
 
         return response()->json(['todo' => $todo], 200);
