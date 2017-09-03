@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\InvalidWeightException;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Todo extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['name', 'completed', 'weight'];
 
     protected $casts = ['completed' => 'boolean'];
@@ -14,6 +17,11 @@ class Todo extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('weight', 'asc')->get();
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->withTrashed()->get();
     }
 
     public function user()
@@ -38,5 +46,10 @@ class Todo extends Model
         }
 
         $this->update(['weight' => $weight]);
+    }
+
+    public function archive()
+    {
+        $this->delete();
     }
 }

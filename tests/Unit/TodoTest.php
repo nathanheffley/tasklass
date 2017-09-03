@@ -4,11 +4,26 @@ namespace Tests\Unit;
 
 use App\Todo;
 use Tests\TestCase;
+use PHPUnit\Framework\Assert;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TodoTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Collection::macro('assertContains', function ($value) {
+            Assert::assertTrue($this->contains($value), 'Failed asserting that the collection contains the specified value.');
+        });
+
+        Collection::macro('assertNotContains', function ($value) {
+            Assert::assertFalse($this->contains($value), 'Failed asserting that the collection does not contain the specified value.');
+        });
+    }
 
     /** @test */
     public function todoCanBeCompleted()
@@ -73,5 +88,16 @@ class TodoTest extends TestCase
         $this->assertEquals($todos[1]->id, $todoA->id);
         $this->assertEquals($todos[2]->id, $todoB->id);
         $this->assertEquals($todos[3]->id, $todoD->id);
+    }
+
+    /** @test */
+    public function todosCanBeArchivedAndQueried()
+    {
+        $todo = factory(Todo::class)->create();
+
+        $todo->archive();
+
+        Todo::all()->assertNotContains($todo);
+        Todo::archived()->assertContains($todo);
     }
 }
