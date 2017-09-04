@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\NotArchivedException;
 use App\Exceptions\InvalidWeightException;
 use App\Exceptions\AlreadyArchivedException;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -65,6 +66,10 @@ class Todo extends Model
 
     public function unarchive()
     {
+        if (! $this->archived) {
+            throw new NotArchivedException;
+        }
+
         $this->restore();
     }
 }

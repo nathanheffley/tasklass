@@ -142,4 +142,15 @@ class TodoTest extends TestCase
 
         $todo->archive();
     }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\NotArchivedException
+     */
+     public function unarchivingNotArchivedTodoThrowsNotArchivedException()
+     {
+         $todo = factory(Todo::class)->create();
+
+         $todo->unarchive();
+     }
 }
