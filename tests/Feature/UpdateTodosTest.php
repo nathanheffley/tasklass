@@ -5,11 +5,26 @@ namespace Tests\Feature;
 use App\Todo;
 use App\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Assert;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateTodosTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Collection::macro('assertContains', function ($value) {
+            Assert::assertTrue($this->contains($value), 'Failed asserting that the collection contains the specified value.');
+        });
+
+        Collection::macro('assertNotContains', function ($value) {
+            Assert::assertFalse($this->contains($value), 'Failed asserting that the collection does not contain the specified value.');
+        });
+    }
 
     /** @test */
     public function completingATodo()
@@ -87,5 +102,49 @@ class UpdateTodosTest extends TestCase
             $this->assertTrue($todo->user->is($user));
             $this->assertEquals('Renamed Todo', $todo->name);
         });
+    }
+
+    /** @test */
+    public function archivingTodo()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $todo = factory(Todo::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->actingAs($user)->delete("/todos/{$todo->id}");
+
+        $response->assertStatus(200);
+
+        Todo::all()->assertNotContains($todo);
+        Todo::archived()->assertContains($todo);
+    }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\AlreadyArchivedException
+     */
+    public function archivingAlreadyArchivedTodoThrowsAlreadyArchivedException()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $todo = factory(Todo::class)->states('archived')->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->actingAs($user)->delete("/todos/{$todo->id}");
+    }
+
+    /**
+     * @test
+     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function archivingNonexistantTodoThrowsNotFoundException()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->delete("/todos/1");
     }
 }

@@ -74,4 +74,11 @@ class TodosController extends Controller
 
         return response()->json(['todo' => $todo], 200);
     }
+
+    public function archive($id)
+    {
+        $todo = Todo::withTrashed()->findOrFail($id);
+
+        $todo->archive();
+    }
 }

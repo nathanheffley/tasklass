@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\InvalidWeightException;
+use App\Exceptions\AlreadyArchivedException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Todo extends Model
@@ -22,6 +23,11 @@ class Todo extends Model
     public function scopeArchived($query)
     {
         return $query->onlyTrashed()->get();
+    }
+
+    public function getArchivedAttribute()
+    {
+        return !! $this->deleted_at;
     }
 
     public function user()
@@ -50,6 +56,10 @@ class Todo extends Model
 
     public function archive()
     {
+        if ($this->archived) {
+            throw new AlreadyArchivedException;
+        }
+
         $this->delete();
     }
 

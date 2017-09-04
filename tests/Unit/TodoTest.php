@@ -121,4 +121,25 @@ class TodoTest extends TestCase
         Todo::all()->assertContains($todo);
         Todo::archived()->assertNotContains($todo);
     }
+
+    /** @test */
+    public function canCheckIfTodoIsArchived()
+    {
+        $todoA = factory(Todo::class)->create();
+        $todoB = factory(Todo::class)->states('archived')->create();
+
+        $this->assertFalse($todoA->archived);
+        $this->assertTrue($todoB->archived);
+    }
+
+    /**
+     * @test
+     * @expectedException App\Exceptions\AlreadyArchivedException
+     */
+    public function archivingAlreadyArchivedTodoThrowsAlreadyArchivedException()
+    {
+        $todo = factory(Todo::class)->states('archived')->create();
+
+        $todo->archive();
+    }
 }

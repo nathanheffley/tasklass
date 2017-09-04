@@ -18,3 +18,4 @@ Route::post('/logout', 'Auth\LoginController@logout');
 Route::get('/todos', 'TodosController@index');
 Route::post('/todos', 'TodosController@store');
 Route::put('/todos/{id}', 'TodosController@update');
+Route::delete('/todos/{id}', 'TodosController@archive');
