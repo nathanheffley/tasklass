@@ -28,7 +28,7 @@ class Todo extends Model
 
     public function getArchivedAttribute()
     {
-        return !! $this->deleted_at;
+        return (bool) $this->deleted_at;
     }
 
     public function user()

@@ -145,6 +145,6 @@ class UpdateTodosTest extends TestCase
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->delete("/todos/1");
+        $response = $this->actingAs($user)->delete('/todos/1');
     }
 }
