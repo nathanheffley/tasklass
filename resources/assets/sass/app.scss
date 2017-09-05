@@ -16,12 +16,28 @@
     margin-bottom: 1em;
 
     &--name {
+        margin-right: auto;
         padding-top: 1px;
         padding-left: calc(0.625em);
     }
 
+    &--name-edit {
+        margin-right: auto;
+        &:not(:last-child) {
+            margin-bottom: 0;
+        }
+    }
+
     &--checkbox {
         display: none;
+
+        .fa {
+            margin-right: 0.5em;
+            text-decoration: none;
+        }
+        .fa-square-o {
+            padding-right: 3px;
+        }
     }
 
     &.completed {
@@ -29,13 +45,5 @@
         .todo--name {
             text-decoration: line-through;
         }
-    }
-
-    .fa {
-        margin-right: 0.5em;
-        text-decoration: none;
-    }
-    .fa-square-o {
-        padding-right: 3px;
     }
 }

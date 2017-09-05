@@ -70,14 +70,14 @@ export default class Todo extends Component {
 
         if (this.state.details.completed) {
             todoClasses += " completed";
-            checkboxLabel = <span className="icon"><i className="fa fa-check-square-o"></i></span>;
+            checkboxLabel = <span className="icon"><i className="fa fa-check-square-o checkbox"></i></span>;
         } else {
-            checkboxLabel = <span className="icon"><i className="fa fa-square-o"></i></span>;
+            checkboxLabel = <span className="icon"><i className="fa fa-square-o checkbox"></i></span>;
         }
 
         if (this.state.editing) {
             nameElement = (
-                <div className="field has-addons">
+                <div className="todo--name-edit field has-addons">
                     <div className="control">
                         <input className="input" type="text" name="name"
                             value={this.state.details.name}
@@ -98,10 +98,18 @@ export default class Todo extends Component {
                 <input id={this.state.checkboxId} className="todo--checkbox" type="checkbox"
                     checked={this.state.details.completed}
                     onChange={this.complete} />
+
                 <label htmlFor={this.state.checkboxId}>
                     {checkboxLabel}
                 </label>
+
                 {nameElement}
+
+                <p className="todo--actions field">
+                    <button className="button is-danger is-outlined">
+                        <span className="icon"><i className="fa fa-trash"></i></span>
+                    </button>
+                </p>
             </li>
         );
     }

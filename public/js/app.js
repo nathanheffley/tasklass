@@ -10484,20 +10484,20 @@ var Todo = function (_Component) {
                 checkboxLabel = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
                     { className: 'icon' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-check-square-o' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-check-square-o checkbox' })
                 );
             } else {
                 checkboxLabel = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
                     { className: 'icon' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-square-o' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-square-o checkbox' })
                 );
             }
 
             if (this.state.editing) {
                 nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'field has-addons' },
+                    { className: 'todo--name-edit field has-addons' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'control' },
@@ -10534,7 +10534,20 @@ var Todo = function (_Component) {
                     { htmlFor: this.state.checkboxId },
                     checkboxLabel
                 ),
-                nameElement
+                nameElement,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'p',
+                    { className: 'todo--actions field' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'button is-danger is-outlined' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'span',
+                            { className: 'icon' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
+                        )
+                    )
+                )
             );
         }
     }]);
