@@ -10501,7 +10501,7 @@ var Todo = function (_Component) {
             var todoClasses = "todo";
             var checkboxLabel = void 0;
             var nameElement = void 0;
-            var deleteButton = void 0;
+            var deleteButtonClasses = "button is-danger is-outlined";
 
             if (this.state.details.completed) {
                 todoClasses += " completed";
@@ -10548,25 +10548,7 @@ var Todo = function (_Component) {
             }
 
             if (this.state.loadingDelete) {
-                deleteButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    { className: 'button is-danger is-outlined is-loading', onClick: this.delete },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'span',
-                        { className: 'icon' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
-                    )
-                );
-            } else {
-                deleteButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    { className: 'button is-danger is-outlined', onClick: this.delete },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'span',
-                        { className: 'icon' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
-                    )
-                );
+                deleteButtonClasses += " is-loading";
             }
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -10584,7 +10566,15 @@ var Todo = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'p',
                     { className: 'todo--actions field' },
-                    deleteButton
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: deleteButtonClasses, onClick: this.delete },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'span',
+                            { className: 'icon' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
+                        )
+                    )
                 )
             );
         }

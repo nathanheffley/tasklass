@@ -90,7 +90,7 @@ export default class Todo extends Component {
         let todoClasses = "todo";
         let checkboxLabel;
         let nameElement;
-        let deleteButton;
+        let deleteButtonClasses = "button is-danger is-outlined";
 
         if (this.state.details.completed) {
             todoClasses += " completed";
@@ -118,17 +118,7 @@ export default class Todo extends Component {
         }
 
         if (this.state.loadingDelete) {
-            deleteButton = (
-                <button className="button is-danger is-outlined is-loading" onClick={this.delete}>
-                    <span className="icon"><i className="fa fa-trash"></i></span>
-                </button>
-            );
-        } else {
-            deleteButton = (
-                <button className="button is-danger is-outlined" onClick={this.delete}>
-                    <span className="icon"><i className="fa fa-trash"></i></span>
-                </button>
-            );
+            deleteButtonClasses += " is-loading";
         }
 
         return (
@@ -144,7 +134,9 @@ export default class Todo extends Component {
                 {nameElement}
 
                 <p className="todo--actions field">
-                    {deleteButton}
+                    <button className={deleteButtonClasses} onClick={this.delete}>
+                        <span className="icon"><i className="fa fa-trash"></i></span>
+                    </button>
                 </p>
             </li>
         );
