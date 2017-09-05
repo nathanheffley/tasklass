@@ -123,21 +123,6 @@ class UpdateTodosTest extends TestCase
 
     /**
      * @test
-     * @expectedException App\Exceptions\AlreadyArchivedException
-     */
-    public function archivingAlreadyArchivedTodoThrowsAlreadyArchivedException()
-    {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $todo = factory(Todo::class)->states('archived')->create([
-            'user_id' => $user->id,
-        ]);
-
-        $response = $this->actingAs($user)->delete("/todos/{$todo->id}");
-    }
-
-    /**
-     * @test
      * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function archivingNonexistantTodoThrowsNotFoundException()
