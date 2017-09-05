@@ -15,9 +15,20 @@
     height: 2.25em;
     margin-bottom: 1em;
 
+    &--checkbox {
+        display: none;
+
+        .fa {
+            margin-right: 0.5em;
+            text-decoration: none;
+        }
+        .fa-square-o {
+            padding-right: 3px;
+        }
+    }
+
     &--name {
         margin-right: auto;
-        padding-top: 1px;
         padding-left: calc(0.625em);
     }
 
@@ -28,15 +39,9 @@
         }
     }
 
-    &--checkbox {
-        display: none;
-
-        .fa {
-            margin-right: 0.5em;
-            text-decoration: none;
-        }
-        .fa-square-o {
-            padding-right: 3px;
+    &--actions {
+        .is-loading {
+            background: transparent !important;
         }
     }
 

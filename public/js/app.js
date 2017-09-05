@@ -10412,10 +10412,14 @@ var Todo = function (_Component) {
             details: _this.props.details,
             checkboxId: 'todo-' + _this.props.details.id,
             editing: false,
-            oldName: _this.props.details.name
+            oldName: _this.props.details.name,
+            loadingDelete: false
         };
 
         _this.complete = _this.complete.bind(_this);
+        _this.delete = _this.delete.bind(_this);
+        _this.toggleCompleted = _this.toggleCompleted.bind(_this);
+        _this.toggleLoadingDelete = _this.toggleLoadingDelete.bind(_this);
         _this.startEditing = _this.startEditing.bind(_this);
         _this.stopEditing = _this.stopEditing.bind(_this);
         _this.handleNameChange = _this.handleNameChange.bind(_this);
@@ -10435,11 +10439,30 @@ var Todo = function (_Component) {
             }.bind(this));
         }
     }, {
+        key: 'delete',
+        value: function _delete() {
+            this.toggleLoadingDelete();
+
+            window.axios.delete('/todos/' + this.state.details.id).then(function (result) {
+                this.props.removeTodo(this.props.id);
+            }.bind(this)).catch(function (error) {
+                this.toggleLoadingDelete();
+                console.log('Failed to delete todo:', error);
+            });
+        }
+    }, {
         key: 'toggleCompleted',
         value: function toggleCompleted() {
             var details = this.state.details;
             details.completed = !details.completed;
             this.setState({ details: details });
+        }
+    }, {
+        key: 'toggleLoadingDelete',
+        value: function toggleLoadingDelete() {
+            var loadingDelete = this.state.loadingDelete;
+            loadingDelete = !loadingDelete;
+            this.setState({ loadingDelete: loadingDelete });
         }
     }, {
         key: 'startEditing',
@@ -10478,6 +10501,7 @@ var Todo = function (_Component) {
             var todoClasses = "todo";
             var checkboxLabel = void 0;
             var nameElement = void 0;
+            var deleteButton = void 0;
 
             if (this.state.details.completed) {
                 todoClasses += " completed";
@@ -10523,6 +10547,28 @@ var Todo = function (_Component) {
                 );
             }
 
+            if (this.state.loadingDelete) {
+                deleteButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'button is-danger is-outlined is-loading', onClick: this.delete },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
+                    )
+                );
+            } else {
+                deleteButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'button is-danger is-outlined', onClick: this.delete },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
+                    )
+                );
+            }
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 { className: todoClasses },
@@ -10538,15 +10584,7 @@ var Todo = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'p',
                     { className: 'todo--actions field' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'button',
-                        { className: 'button is-danger is-outlined' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'span',
-                            { className: 'icon' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
-                        )
-                    )
+                    deleteButton
                 )
             );
         }
@@ -28806,6 +28844,7 @@ var TodoList = function (_Component) {
         };
 
         _this.addTodo = _this.addTodo.bind(_this);
+        _this.removeTodo = _this.removeTodo.bind(_this);
         return _this;
     }
 
@@ -28814,6 +28853,13 @@ var TodoList = function (_Component) {
         value: function addTodo(data) {
             var todos = this.state.todos;
             todos.push(data);
+            this.setState({ todos: todos });
+        }
+    }, {
+        key: 'removeTodo',
+        value: function removeTodo(key) {
+            var todos = this.state.todos;
+            delete todos[key];
             this.setState({ todos: todos });
         }
     }, {
@@ -28834,7 +28880,7 @@ var TodoList = function (_Component) {
                             'ul',
                             null,
                             Object.keys(this.state.todos).map(function (key) {
-                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Todo__["default"], { key: key, details: _this2.state.todos[key] });
+                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Todo__["default"], { key: key, id: key, details: _this2.state.todos[key], removeTodo: _this2.removeTodo });
                             })
                         )
                     )

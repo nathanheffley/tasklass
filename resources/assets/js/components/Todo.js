@@ -8,9 +8,13 @@ export default class Todo extends Component {
             checkboxId: `todo-${this.props.details.id}`,
             editing: false,
             oldName: this.props.details.name,
+            loadingDelete: false,
         }
 
         this.complete = this.complete.bind(this);
+        this.delete = this.delete.bind(this);
+        this.toggleCompleted = this.toggleCompleted.bind(this);
+        this.toggleLoadingDelete = this.toggleLoadingDelete.bind(this);
         this.startEditing = this.startEditing.bind(this);
         this.stopEditing = this.stopEditing.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -28,10 +32,29 @@ export default class Todo extends Component {
         }.bind(this));
     }
 
+    delete() {
+        this.toggleLoadingDelete();
+
+        window.axios.delete(`/todos/${this.state.details.id}`)
+        .then(function (result) {
+            this.props.removeTodo(this.props.id);
+        }.bind(this))
+        .catch(function (error) {
+            this.toggleLoadingDelete();
+            console.log('Failed to delete todo:', error);
+        });
+    }
+
     toggleCompleted() {
         let details = this.state.details;
         details.completed = !details.completed;
         this.setState({details: details});
+    }
+
+    toggleLoadingDelete() {
+        let loadingDelete = this.state.loadingDelete;
+        loadingDelete = !loadingDelete;
+        this.setState({loadingDelete: loadingDelete});
     }
 
     startEditing() {
@@ -62,11 +85,12 @@ export default class Todo extends Component {
             console.log(error);
         }.bind(this));
     }
-
+    
     render() {
         let todoClasses = "todo";
         let checkboxLabel;
         let nameElement;
+        let deleteButton;
 
         if (this.state.details.completed) {
             todoClasses += " completed";
@@ -93,6 +117,20 @@ export default class Todo extends Component {
             nameElement = <span className="todo--name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
         }
 
+        if (this.state.loadingDelete) {
+            deleteButton = (
+                <button className="button is-danger is-outlined is-loading" onClick={this.delete}>
+                    <span className="icon"><i className="fa fa-trash"></i></span>
+                </button>
+            );
+        } else {
+            deleteButton = (
+                <button className="button is-danger is-outlined" onClick={this.delete}>
+                    <span className="icon"><i className="fa fa-trash"></i></span>
+                </button>
+            );
+        }
+
         return (
             <li className={todoClasses}>
                 <input id={this.state.checkboxId} className="todo--checkbox" type="checkbox"
@@ -106,9 +144,7 @@ export default class Todo extends Component {
                 {nameElement}
 
                 <p className="todo--actions field">
-                    <button className="button is-danger is-outlined">
-                        <span className="icon"><i className="fa fa-trash"></i></span>
-                    </button>
+                    {deleteButton}
                 </p>
             </li>
         );

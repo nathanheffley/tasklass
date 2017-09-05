@@ -12,11 +12,18 @@ export default class TodoList extends Component {
         }
 
         this.addTodo = this.addTodo.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
     }
 
     addTodo(data) {
         const todos = this.state.todos;
         todos.push(data);
+        this.setState({ todos });
+    }
+
+    removeTodo(key) {
+        const todos = this.state.todos;
+        delete todos[key];
         this.setState({ todos });
     }
 
@@ -29,7 +36,7 @@ export default class TodoList extends Component {
                             {
                                 Object
                                     .keys(this.state.todos)
-                                    .map(key => <Todo key={key} details={this.state.todos[key]} />)
+                                    .map(key => <Todo key={key} id={key} details={this.state.todos[key]} removeTodo={this.removeTodo} />)
                             }
                         </ul>
                     </div>

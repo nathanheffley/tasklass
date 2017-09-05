@@ -13134,20 +13134,6 @@ label.panel-block:hover {
   margin-bottom: 1em;
 }
 
-.todo--name {
-  margin-right: auto;
-  padding-top: 1px;
-  padding-left: calc(0.625em);
-}
-
-.todo--name-edit {
-  margin-right: auto;
-}
-
-.todo--name-edit:not(:last-child) {
-  margin-bottom: 0;
-}
-
 .todo--checkbox {
   display: none;
 }
@@ -13159,6 +13145,23 @@ label.panel-block:hover {
 
 .todo--checkbox .fa-square-o {
   padding-right: 3px;
+}
+
+.todo--name {
+  margin-right: auto;
+  padding-left: calc(0.625em);
+}
+
+.todo--name-edit {
+  margin-right: auto;
+}
+
+.todo--name-edit:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.todo--actions .is-loading {
+  background: transparent !important;
 }
 
 .todo.completed {
