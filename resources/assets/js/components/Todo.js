@@ -78,6 +78,8 @@ export default class Todo extends Component {
     handleNameSave() {
         this.setState({editing: false});
 
+        if (this.state.details.name == this.state.oldName) { return; }
+
         window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
         .then(function (response) {
             this.setState({oldName: this.state.details.name});

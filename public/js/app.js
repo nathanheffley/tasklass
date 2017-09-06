@@ -10490,6 +10490,10 @@ var Todo = function (_Component) {
         value: function handleNameSave() {
             this.setState({ editing: false });
 
+            if (this.state.details.name == this.state.oldName) {
+                return;
+            }
+
             window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).then(function (response) {
                 this.setState({ oldName: this.state.details.name });
             }.bind(this)).catch(function (error) {
