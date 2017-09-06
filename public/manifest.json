@@ -1,0 +1,25 @@
+{
+  "short_name": "Todo",
+  "name": "Todo - Stay On Track",
+  "theme_color": "#00d1b2",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/icon-small.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/icon-medium.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-large.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "todos"
+}
