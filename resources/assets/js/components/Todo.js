@@ -16,7 +16,7 @@ export default class Todo extends Component {
         this.toggleCompleted = this.toggleCompleted.bind(this);
         this.toggleLoadingDelete = this.toggleLoadingDelete.bind(this);
         this.startEditing = this.startEditing.bind(this);
-        this.stopEditing = this.stopEditing.bind(this);
+        this.cancelEditing = this.cancelEditing.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSave = this.handleNameSave.bind(this);
     }
@@ -61,7 +61,11 @@ export default class Todo extends Component {
         this.setState({editing: true});
     }
 
-    stopEditing() {
+    cancelEditing() {
+        let details = this.state.details;
+        details.name = this.state.oldName;
+        this.setState({details: details});
+
         this.setState({editing: false});
     }
 
@@ -72,7 +76,7 @@ export default class Todo extends Component {
     }
 
     handleNameSave() {
-        this.stopEditing();
+        this.setState({editing: false});
 
         window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
         .then(function (response) {
@@ -90,6 +94,7 @@ export default class Todo extends Component {
         let todoClasses = "todo";
         let checkboxLabel;
         let nameElement;
+        let editButton;
         let deleteButtonClasses = "button is-danger is-outlined";
 
         if (this.state.details.completed) {
@@ -109,7 +114,7 @@ export default class Todo extends Component {
                         </input>
                     </div>
                     <div className="control">
-                        <button className="button is-primary" onClick={this.handleNameSave}>Save</button>
+                        <button className="button is-warning" onClick={this.cancelEditing}>Cancel</button>
                     </div>
                 </div>
             );
@@ -119,6 +124,20 @@ export default class Todo extends Component {
 
         if (this.state.loadingDelete) {
             deleteButtonClasses += " is-loading";
+        }
+
+        if (this.state.editing) {
+            editButton = (
+                <button className="button is-primary is-outlined" onClick={this.handleNameSave}>
+                    <span className="icon"><i className="fa fa-save"></i></span>
+                </button>
+            );
+        } else {
+            editButton = (
+                <button className="button is-primary is-outlined" onClick={this.startEditing}>
+                    <span className="icon"><i className="fa fa-pencil"></i></span>
+                </button>
+            );
         }
 
         return (
@@ -134,6 +153,7 @@ export default class Todo extends Component {
                 {nameElement}
 
                 <p className="todo--actions field">
+                    {editButton}
                     <button className={deleteButtonClasses} onClick={this.delete}>
                         <span className="icon"><i className="fa fa-trash"></i></span>
                     </button>

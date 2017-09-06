@@ -10421,7 +10421,7 @@ var Todo = function (_Component) {
         _this.toggleCompleted = _this.toggleCompleted.bind(_this);
         _this.toggleLoadingDelete = _this.toggleLoadingDelete.bind(_this);
         _this.startEditing = _this.startEditing.bind(_this);
-        _this.stopEditing = _this.stopEditing.bind(_this);
+        _this.cancelEditing = _this.cancelEditing.bind(_this);
         _this.handleNameChange = _this.handleNameChange.bind(_this);
         _this.handleNameSave = _this.handleNameSave.bind(_this);
         return _this;
@@ -10470,8 +10470,12 @@ var Todo = function (_Component) {
             this.setState({ editing: true });
         }
     }, {
-        key: 'stopEditing',
-        value: function stopEditing() {
+        key: 'cancelEditing',
+        value: function cancelEditing() {
+            var details = this.state.details;
+            details.name = this.state.oldName;
+            this.setState({ details: details });
+
             this.setState({ editing: false });
         }
     }, {
@@ -10484,7 +10488,7 @@ var Todo = function (_Component) {
     }, {
         key: 'handleNameSave',
         value: function handleNameSave() {
-            this.stopEditing();
+            this.setState({ editing: false });
 
             window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).then(function (response) {
                 this.setState({ oldName: this.state.details.name });
@@ -10501,6 +10505,7 @@ var Todo = function (_Component) {
             var todoClasses = "todo";
             var checkboxLabel = void 0;
             var nameElement = void 0;
+            var editButton = void 0;
             var deleteButtonClasses = "button is-danger is-outlined";
 
             if (this.state.details.completed) {
@@ -10534,8 +10539,8 @@ var Todo = function (_Component) {
                         { className: 'control' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'button',
-                            { className: 'button is-primary', onClick: this.handleNameSave },
-                            'Save'
+                            { className: 'button is-warning', onClick: this.cancelEditing },
+                            'Cancel'
                         )
                     )
                 );
@@ -10549,6 +10554,28 @@ var Todo = function (_Component) {
 
             if (this.state.loadingDelete) {
                 deleteButtonClasses += " is-loading";
+            }
+
+            if (this.state.editing) {
+                editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'button is-primary is-outlined', onClick: this.handleNameSave },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-save' })
+                    )
+                );
+            } else {
+                editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { className: 'button is-primary is-outlined', onClick: this.startEditing },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-pencil' })
+                    )
+                );
             }
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -10566,6 +10593,7 @@ var Todo = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'p',
                     { className: 'todo--actions field' },
+                    editButton,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
                         { className: deleteButtonClasses, onClick: this.delete },
