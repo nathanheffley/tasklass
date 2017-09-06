@@ -21,7 +21,13 @@ export default class TodoList extends Component {
 
     loadTodos() {
         return new Promise(resolve => {
-            resolve(window.Todo.todos);
+            window.axios.get('/todos.json')
+                .then(response => {
+                    resolve(response.data.todos);
+                })
+                .catch(err => {
+                    reject(Error(err));
+                });
         });
     }
 
@@ -43,7 +49,7 @@ export default class TodoList extends Component {
                 <div>
                     <section className="section">
                         <div className="container">
-                            <h2>No Todos!</h2>
+                            <h2>Loading todos...</h2>
                         </div>
                     </section>
                     <AddTodo addTodo={this.addTodo} />
