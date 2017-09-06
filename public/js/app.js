@@ -10563,7 +10563,7 @@ var Todo = function (_Component) {
             if (this.state.editing) {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.handleNameSave },
+                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.handleNameSave, 'aria-label': 'Edit' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -10573,7 +10573,7 @@ var Todo = function (_Component) {
             } else {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.startEditing },
+                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.startEditing, 'aria-label': 'Edit' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -10585,7 +10585,9 @@ var Todo = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 { className: todoClasses },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: this.state.checkboxId, className: 'todo--checkbox', type: 'checkbox',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: this.state.checkboxId,
+                    className: 'todo--checkbox',
+                    'aria-label': 'Todo', type: 'checkbox',
                     checked: this.state.details.completed,
                     onChange: this.complete }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -10600,7 +10602,7 @@ var Todo = function (_Component) {
                     editButton,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { className: deleteButtonClasses, onClick: this.delete },
+                        { className: deleteButtonClasses, onClick: this.delete, 'aria-label': 'Delete' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'span',
                             { className: 'icon' },
@@ -10693,6 +10695,7 @@ var AddTodo = function (_Component) {
                                 { className: 'control' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'input',
                                     type: 'text', name: 'name',
+                                    'aria-label': 'Todo',
                                     onChange: this.handleChange,
                                     value: this.state.name,
                                     placeholder: 'todo' })

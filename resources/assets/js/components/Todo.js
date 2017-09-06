@@ -130,13 +130,13 @@ export default class Todo extends Component {
 
         if (this.state.editing) {
             editButton = (
-                <button className="todo--edit-button button is-primary is-outlined" onClick={this.handleNameSave}>
+                <button className="todo--edit-button button is-primary is-outlined" onClick={this.handleNameSave} aria-label="Edit">
                     <span className="icon"><i className="fa fa-save"></i></span>
                 </button>
             );
         } else {
             editButton = (
-                <button className="todo--edit-button button is-primary is-outlined" onClick={this.startEditing}>
+                <button className="todo--edit-button button is-primary is-outlined" onClick={this.startEditing} aria-label="Edit">
                     <span className="icon"><i className="fa fa-pencil"></i></span>
                 </button>
             );
@@ -144,7 +144,9 @@ export default class Todo extends Component {
 
         return (
             <li className={todoClasses}>
-                <input id={this.state.checkboxId} className="todo--checkbox" type="checkbox"
+                <input id={this.state.checkboxId}
+                    className="todo--checkbox"
+                    aria-label="Todo" type="checkbox"
                     checked={this.state.details.completed}
                     onChange={this.complete} />
 
@@ -156,7 +158,7 @@ export default class Todo extends Component {
 
                 <p className="todo--actions field">
                     {editButton}
-                    <button className={deleteButtonClasses} onClick={this.delete}>
+                    <button className={deleteButtonClasses} onClick={this.delete} aria-label="Delete">
                         <span className="icon"><i className="fa fa-trash"></i></span>
                     </button>
                 </p>

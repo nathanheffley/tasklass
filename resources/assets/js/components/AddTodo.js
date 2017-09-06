@@ -41,6 +41,7 @@ export default class AddTodo extends Component {
                             <div className="control">
                                 <input className="input"
                                     type="text" name="name"
+                                    aria-label="Todo"
                                     onChange={this.handleChange}
                                     value={this.state.name}
                                     placeholder="todo" />
