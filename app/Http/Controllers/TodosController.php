@@ -21,6 +21,19 @@ class TodosController extends Controller
         return view('todos.index', compact('todos'));
     }
 
+    public function indexJson()
+    {
+        if (Auth::guest()) {
+            return response()->json(['errors' => new MessageBag([
+                'authorization' => 'Only authenticated users can create todos.',
+            ])], 401);
+        }
+
+        $todos = Auth::user()->orderedTodos();
+
+        return response()->json(['todos' => $todos], 200);
+    }
+
     public function store()
     {
         if (Auth::guest()) {

@@ -34,7 +34,6 @@ class ViewTodosTest extends TestCase
     /** @test */
     public function userCanOnlyViewTheirOwnTodos()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $otherUser = factory(User::class)->create();
         $todoA = factory(Todo::class)->create(['user_id' => $user->id]);
@@ -57,5 +56,23 @@ class ViewTodosTest extends TestCase
         $response = $this->get('/todos');
 
         $response->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function todosCanBeRetrievedAsJson()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $todoA = factory(Todo::class)->create(['user_id' => $user->id]);
+        $todoB = factory(Todo::class)->create(['user_id' => $user->id]);
+        $todoC = factory(Todo::class)->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->get('/todos.json');
+
+        $response->assertStatus(200);
+        $responseTodos = $response->getData()->todos;
+        $this->assertEquals($todoA->id, $responseTodos[0]->id);
+        $this->assertEquals($todoB->id, $responseTodos[1]->id);
+        $this->assertEquals($todoC->id, $responseTodos[2]->id);
     }
 }

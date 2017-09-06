@@ -16,6 +16,7 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout');
 
 Route::get('/todos', 'TodosController@index');
+Route::get('/todos.json', 'TodosController@indexJson');
 Route::post('/todos', 'TodosController@store');
 Route::put('/todos/{id}', 'TodosController@update');
 Route::delete('/todos/{id}', 'TodosController@archive');
