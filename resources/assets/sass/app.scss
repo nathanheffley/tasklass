@@ -33,7 +33,11 @@
     }
 
     &--name-edit {
-        margin-right: auto;
+        flex-grow: 1;
+        margin-right: 1rem;
+        &-textfield {
+            flex-grow: 1;
+        }
         &:not(:last-child) {
             margin-bottom: 0;
         }
@@ -43,6 +47,10 @@
         .is-loading {
             background: transparent !important;
         }
+    }
+
+    &--edit-button {
+        margin-right: 1rem;
     }
 
     &.completed {

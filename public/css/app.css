@@ -13153,7 +13153,16 @@ label.panel-block:hover {
 }
 
 .todo--name-edit {
-  margin-right: auto;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-right: 1rem;
+}
+
+.todo--name-edit-textfield {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .todo--name-edit:not(:last-child) {
@@ -13162,6 +13171,10 @@ label.panel-block:hover {
 
 .todo--actions .is-loading {
   background: transparent !important;
+}
+
+.todo--edit-button {
+  margin-right: 1rem;
 }
 
 .todo.completed {

@@ -109,7 +109,7 @@ export default class Todo extends Component {
         if (this.state.editing) {
             nameElement = (
                 <div className="todo--name-edit field has-addons">
-                    <div className="control">
+                    <div className="control todo--name-edit-textfield">
                         <input className="input" type="text" name="name"
                             value={this.state.details.name}
                             onChange={this.handleNameChange}>
@@ -130,13 +130,13 @@ export default class Todo extends Component {
 
         if (this.state.editing) {
             editButton = (
-                <button className="button is-primary is-outlined" onClick={this.handleNameSave}>
+                <button className="todo--edit-button button is-primary is-outlined" onClick={this.handleNameSave}>
                     <span className="icon"><i className="fa fa-save"></i></span>
                 </button>
             );
         } else {
             editButton = (
-                <button className="button is-primary is-outlined" onClick={this.startEditing}>
+                <button className="todo--edit-button button is-primary is-outlined" onClick={this.startEditing}>
                     <span className="icon"><i className="fa fa-pencil"></i></span>
                 </button>
             );

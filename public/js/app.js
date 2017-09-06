@@ -10533,7 +10533,7 @@ var Todo = function (_Component) {
                     { className: 'todo--name-edit field has-addons' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'control' },
+                        { className: 'control todo--name-edit-textfield' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'input', type: 'text', name: 'name',
                             value: this.state.details.name,
                             onChange: this.handleNameChange })
@@ -10563,7 +10563,7 @@ var Todo = function (_Component) {
             if (this.state.editing) {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'button is-primary is-outlined', onClick: this.handleNameSave },
+                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.handleNameSave },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -10573,7 +10573,7 @@ var Todo = function (_Component) {
             } else {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'button is-primary is-outlined', onClick: this.startEditing },
+                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.startEditing },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
