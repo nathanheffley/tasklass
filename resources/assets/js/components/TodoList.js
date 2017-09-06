@@ -7,12 +7,22 @@ import AddTodo from './AddTodo';
 export default class TodoList extends Component {
     constructor() {
         super();
+
         this.state = {
-            todos: window.Todo.todos,
-        }
+            todos: null
+        };
+        this.loadTodos().then(todos => {
+            this.setState({todos: todos});
+        });
 
         this.addTodo = this.addTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
+    }
+
+    loadTodos() {
+        return new Promise(resolve => {
+            resolve(window.Todo.todos);
+        });
     }
 
     addTodo(data) {
@@ -28,11 +38,23 @@ export default class TodoList extends Component {
     }
 
     render() {
+        if (this.state.todos == null) {
+            return (
+                <div>
+                    <section className="section">
+                        <div className="container">
+                            <h2>No Todos!</h2>
+                        </div>
+                    </section>
+                    <AddTodo addTodo={this.addTodo} />
+                </div>
+            );
+        }
         return (
             <div>
                 <section className="section">
                     <div className="container">
-                        <ul>
+                        <ul >
                             {
                                 Object
                                     .keys(this.state.todos)

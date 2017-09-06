@@ -1,4 +1,6 @@
 
+require('babel-polyfill');
+
 window._ = require('lodash');
 
 /**
