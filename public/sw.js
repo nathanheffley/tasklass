@@ -77,7 +77,7 @@ module.exports = __webpack_require__(548);
 /***/ (function(module, exports) {
 
 var CACHE_NAME = 'todo-cache-v1';
-var urlsToCache = ['/css/app.css', '/js/app.js', '/fonts/vendor/font-awesome/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e'];
+var urlsToCache = ['favicon.ico', '/css/app.css', '/js/app.js'];
 
 self.addEventListener('install', function (event) {
     event.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
@@ -90,7 +90,22 @@ self.addEventListener('fetch', function (event) {
         if (response) {
             return response;
         }
-        return fetch(event.request);
+
+        var fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(function (response) {
+            if (!response || response.url != 'https://todo.local/todos') {
+                return response;
+            }
+
+            var responseToCache = response.clone();
+
+            caches.open(CACHE_NAME).then(function (cache) {
+                cache.put(event.request, responseToCache);
+            });
+
+            return response;
+        });
     }));
 });
 
