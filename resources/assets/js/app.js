@@ -16,3 +16,18 @@ require('./bootstrap');
 require('./components/TodoList');
 require('./components/Todo');
 require('./components/AddTodo');
+
+/**
+ * Finally check for Service Worker support and install ours if possible.
+ */
+
+ if ('serviceWorker' in navigator) {
+     window.addEventListener('load', function() {
+         navigator.serviceWorker.register('/sw.js').then(function(registration) {
+             // Successfully registered!
+         }, function(err) {
+             // Failed to register.
+             console.log('ServiceWorker registration failed: ', err);
+         });
+     });
+ }

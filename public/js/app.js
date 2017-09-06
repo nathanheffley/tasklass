@@ -10765,6 +10765,21 @@ __webpack_require__(116);
 __webpack_require__(89);
 __webpack_require__(90);
 
+/**
+ * Finally check for Service Worker support and install ours if possible.
+ */
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(function (registration) {
+            // Successfully registered!
+        }, function (err) {
+            // Failed to register.
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+}
+
 /***/ }),
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
