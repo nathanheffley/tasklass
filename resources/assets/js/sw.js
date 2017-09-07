@@ -26,7 +26,7 @@ self.addEventListener('fetch', function(event) {
 
                 return fetch(fetchRequest).then(
                     function(response) {
-                        if (!response || response.url != 'https://todo.local/todos') {
+                        if (response.url != 'https://todo.local/todos') {
                             return response;
                         }
 
