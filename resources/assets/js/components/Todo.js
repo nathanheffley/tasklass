@@ -108,8 +108,8 @@ export default class Todo extends Component {
 
         if (this.state.editing) {
             nameElement = (
-                <div className="todo--name-edit field has-addons">
-                    <div className="control todo--name-edit-textfield">
+                <div className="todo__name-edit field has-addons">
+                    <div className="control todo__name-edit-textfield">
                         <input className="input" type="text" name="name"
                             value={this.state.details.name}
                             onChange={this.handleNameChange}>
@@ -121,7 +121,7 @@ export default class Todo extends Component {
                 </div>
             );
         } else {
-            nameElement = <span className="todo--name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
+            nameElement = <span className="todo__name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
         }
 
         if (this.state.loadingDelete) {
@@ -130,13 +130,13 @@ export default class Todo extends Component {
 
         if (this.state.editing) {
             editButton = (
-                <button className="todo--edit-button button is-primary is-outlined" onClick={this.handleNameSave} aria-label="Edit">
+                <button className="todo__edit-button button is-primary is-outlined" onClick={this.handleNameSave} aria-label="Edit">
                     <span className="icon"><i className="fa fa-save"></i></span>
                 </button>
             );
         } else {
             editButton = (
-                <button className="todo--edit-button button is-primary is-outlined" onClick={this.startEditing} aria-label="Edit">
+                <button className="todo__edit-button button is-primary is-outlined" onClick={this.startEditing} aria-label="Edit">
                     <span className="icon"><i className="fa fa-pencil"></i></span>
                 </button>
             );
@@ -145,7 +145,7 @@ export default class Todo extends Component {
         return (
             <li className={todoClasses}>
                 <input id={this.state.checkboxId}
-                    className="todo--checkbox"
+                    className="todo__checkbox"
                     aria-label="Todo" type="checkbox"
                     checked={this.state.details.completed}
                     onChange={this.complete} />
@@ -156,7 +156,7 @@ export default class Todo extends Component {
 
                 {nameElement}
 
-                <p className="todo--actions field">
+                <p className="todo__actions field">
                     {editButton}
                     <button className={deleteButtonClasses} onClick={this.delete} aria-label="Delete">
                         <span className="icon"><i className="fa fa-trash"></i></span>

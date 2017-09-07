@@ -15,7 +15,7 @@
     height: 2.25em;
     margin-bottom: 1em;
 
-    &--checkbox {
+    &__checkbox {
         display: none;
 
         .fa {
@@ -27,12 +27,13 @@
         }
     }
 
-    &--name {
+    &__name {
         margin-right: auto;
         padding-left: calc(0.625em);
+        padding-top: 1px;
     }
 
-    &--name-edit {
+    &__name-edit {
         flex-grow: 1;
         margin-right: 1rem;
         &-textfield {
@@ -43,19 +44,19 @@
         }
     }
 
-    &--actions {
+    &__actions {
         .is-loading {
             background: transparent !important;
         }
     }
 
-    &--edit-button {
+    &__edit-button {
         margin-right: 1rem;
     }
 
     &.completed {
         color: #aaa;
-        .todo--name {
+        .todo__name {
             text-decoration: line-through;
         }
     }
