@@ -14077,7 +14077,7 @@ var Todo = function (_Component) {
             }.bind(this)).catch(function (error) {
                 this.toggleLoadingDelete();
                 console.log('Failed to delete todo:', error);
-            });
+            }.bind(this));
         }
     }, {
         key: 'toggleCompleted',
@@ -37858,12 +37858,17 @@ var TodoList = function (_Component) {
         var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this));
 
         _this.state = {
-            todos: null
+            todos: null,
+            todosCount: 0
         };
         _this.loadTodos().then(function (todos) {
             _this.setState({ todos: todos });
+            _this.setState({ todosCount: todos.length });
+            _this.storeTodoCount();
         });
 
+        _this.adjustTodoCount = _this.adjustTodoCount.bind(_this);
+        _this.storeTodoCount = _this.storeTodoCount.bind(_this);
         _this.addTodo = _this.addTodo.bind(_this);
         _this.removeTodo = _this.removeTodo.bind(_this);
         return _this;
@@ -37881,11 +37886,36 @@ var TodoList = function (_Component) {
             });
         }
     }, {
+        key: 'adjustTodoCount',
+        value: function adjustTodoCount(change) {
+            var todosCount = this.state.todosCount;
+            this.setState({ todosCount: todosCount + change });
+            this.storeTodoCount();
+        }
+    }, {
+        key: 'storeTodoCount',
+        value: function storeTodoCount() {
+            if ('localStorage' in window) {
+                localStorage.setItem('todoCount', this.state.todosCount);
+            }
+        }
+    }, {
+        key: 'getTodoCount',
+        value: function getTodoCount() {
+            if ('localStorage' in window) {
+                return localStorage.getItem('todoCount');
+            } else {
+                return 0;
+            }
+        }
+    }, {
         key: 'addTodo',
         value: function addTodo(data) {
             var todos = this.state.todos;
             todos.push(data);
             this.setState({ todos: todos });
+
+            this.adjustTodoCount(1);
         }
     }, {
         key: 'removeTodo',
@@ -37893,6 +37923,8 @@ var TodoList = function (_Component) {
             var todos = this.state.todos;
             delete todos[key];
             this.setState({ todos: todos });
+
+            this.adjustTodoCount(-1);
         }
     }, {
         key: 'render',
@@ -37900,6 +37932,17 @@ var TodoList = function (_Component) {
             var _this2 = this;
 
             if (this.state.todos == null) {
+
+                var todoList = null;
+                var skeletonTodos = this.getTodoCount();
+
+                if (skeletonTodos > 0) {
+                    todoList = [];
+                    for (var i = 0; i < skeletonTodos; i++) {
+                        todoList.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', { key: 'skeleton-' + i, className: 'todo todo--skeleton' }));
+                    }
+                }
+
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     null,
@@ -37912,7 +37955,7 @@ var TodoList = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'ul',
                                 null,
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', { className: 'todo todo--skeleton' })
+                                todoList
                             )
                         )
                     ),

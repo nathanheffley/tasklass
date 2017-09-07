@@ -9,12 +9,17 @@ export default class TodoList extends Component {
         super();
 
         this.state = {
-            todos: null
+            todos: null,
+            todosCount: 0
         };
         this.loadTodos().then(todos => {
             this.setState({todos: todos});
+            this.setState({todosCount: todos.length});
+            this.storeTodoCount();
         });
 
+        this.adjustTodoCount = this.adjustTodoCount.bind(this);
+        this.storeTodoCount = this.storeTodoCount.bind(this);
         this.addTodo = this.addTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
     }
@@ -31,26 +36,61 @@ export default class TodoList extends Component {
         });
     }
 
+    adjustTodoCount(change) {
+        const todosCount = this.state.todosCount;
+        this.setState({todosCount: todosCount + change});
+        this.storeTodoCount();
+    }
+
+    storeTodoCount() {
+        if ('localStorage' in window) {
+            localStorage.setItem('todoCount', this.state.todosCount);
+        }
+    }
+
+    getTodoCount() {
+        if ('localStorage' in window) {
+            return localStorage.getItem('todoCount');
+        } else {
+            return 0;
+        }
+    }
+
     addTodo(data) {
         const todos = this.state.todos;
         todos.push(data);
         this.setState({ todos });
+
+        this.adjustTodoCount(1);
     }
 
     removeTodo(key) {
         const todos = this.state.todos;
         delete todos[key];
         this.setState({ todos });
+
+        this.adjustTodoCount(-1);
     }
 
     render() {
         if (this.state.todos == null) {
+
+            let todoList = null;
+            let skeletonTodos = this.getTodoCount();
+
+            if (skeletonTodos > 0) {
+                todoList = [];
+                for (var i = 0; i < skeletonTodos; i++) {
+                    todoList.push(<li key={`skeleton-${i}`} className="todo todo--skeleton"></li>);
+                }
+            }
+
             return (
                 <div>
                     <section className="section">
                         <div className="container">
                             <ul>
-                                <li className="todo todo--skeleton"></li>
+                                {todoList}
                             </ul>
                         </div>
                     </section>
