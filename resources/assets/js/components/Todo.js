@@ -26,6 +26,9 @@ export default class Todo extends Component {
         this.toggleCompleted();
 
         window.axios.put(`/todos/${this.state.details.id}`, {'completed': this.state.details.completed})
+        .then(function (result) {
+            this.props.updateTodo(this.state.details.id, null, this.state.details.completed);
+        }.bind(this))
         .catch(function (error) {
             // If there was a problem, set the state back to original value
             this.toggleCompleted();
@@ -83,6 +86,7 @@ export default class Todo extends Component {
         window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
         .then(function (response) {
             this.setState({oldName: this.state.details.name});
+            this.props.updateTodo(this.state.details.id, this.state.details.name);
         }.bind(this))
         .catch(function (error) {
             let details = this.state.details;

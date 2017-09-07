@@ -14062,7 +14062,9 @@ var Todo = function (_Component) {
             // Update completed state before sending request (perceived speed)
             this.toggleCompleted();
 
-            window.axios.put('/todos/' + this.state.details.id, { 'completed': this.state.details.completed }).catch(function (error) {
+            window.axios.put('/todos/' + this.state.details.id, { 'completed': this.state.details.completed }).then(function (result) {
+                this.props.updateTodo(this.state.details.id, null, this.state.details.completed);
+            }.bind(this)).catch(function (error) {
                 // If there was a problem, set the state back to original value
                 this.toggleCompleted();
             }.bind(this));
@@ -14125,6 +14127,7 @@ var Todo = function (_Component) {
 
             window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).then(function (response) {
                 this.setState({ oldName: this.state.details.name });
+                this.props.updateTodo(this.state.details.id, this.state.details.name);
             }.bind(this)).catch(function (error) {
                 var details = this.state.details;
                 details.name = this.state.oldName;
@@ -37857,6 +37860,8 @@ var TodoList = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this));
 
+        _this.todosStoreVersion = 1;
+
         _this.state = {
             todos: null,
             todosCount: 0
@@ -37865,8 +37870,15 @@ var TodoList = function (_Component) {
             _this.setState({ todos: todos });
             _this.setState({ todosCount: todos.length });
             _this.storeTodoCount();
+
+            _this.setupTodosStore();
         });
 
+        _this.setupTodosStore = _this.setupTodosStore.bind(_this);
+        _this.storeTodo = _this.storeTodo.bind(_this);
+        _this.deleteTodo = _this.deleteTodo.bind(_this);
+        _this.getTodo = _this.getTodo.bind(_this);
+        _this.updateTodo = _this.updateTodo.bind(_this);
         _this.adjustTodoCount = _this.adjustTodoCount.bind(_this);
         _this.storeTodoCount = _this.storeTodoCount.bind(_this);
         _this.addTodo = _this.addTodo.bind(_this);
@@ -37884,6 +37896,170 @@ var TodoList = function (_Component) {
                     reject(Error(err));
                 });
             });
+        }
+    }, {
+        key: 'setupTodosStore',
+        value: function setupTodosStore() {
+            var _this2 = this;
+
+            if (!('indexedDB' in window)) {
+                return;
+            }
+
+            var dbRequest = window.indexedDB.open('todosStore', this.todosStoreVersion);
+            dbRequest.onerror = function (event) {
+                console.log('todosStore IndexedDB setup error:', event.target.errorCode);
+            };
+            dbRequest.onupgradeneeded = function (event) {
+                var db = event.target.result;
+                var objectStore = db.createObjectStore('todos', { keyPath: 'id' });
+
+                objectStore.transaction.oncomplete = function (event) {
+                    var todosObjectStore = db.transaction('todos', 'readwrite').objectStore('todos');
+                    _this2.state.todos.forEach(function (todo) {
+                        console.log('calling storeTodo for', todo);
+                        _this2.storeTodo(todo);
+                    });
+                };
+            };
+            dbRequest.onsuccess = function (event) {
+                var db = event.target.result;
+                var objectStore = db.transaction('todos', 'readwrite').objectStore('todos');
+
+                var storedTodoIds = [];
+                objectStore.openCursor().onsuccess = function (event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        storedTodoIds.push(cursor.value.id);
+                        cursor.continue();
+                    } else {
+                        // Store any todos that are in state but not indexeddb
+                        _this2.state.todos.forEach(function (todo) {
+                            var stored = false;
+                            storedTodoIds.forEach(function (storedId) {
+                                if (todo.id === storedId) {
+                                    stored = true;
+                                }
+                            });
+                            if (!stored) {
+                                _this2.storeTodo(todo);
+                            }
+                        });
+
+                        // Delete any todos that are in indexeddb but not state
+                        storedTodoIds.forEach(function (storedId) {
+                            var shouldDelete = true;
+                            _this2.state.todos.forEach(function (todo) {
+                                if (todo.id === storedId) {
+                                    shouldDelete = false;
+                                }
+                            });
+                            if (shouldDelete) {
+                                _this2.deleteTodo(storedId);
+                            }
+                        });
+                    }
+                };
+            };
+        }
+    }, {
+        key: 'storeTodo',
+        value: function storeTodo(todo) {
+            if (name == null && completed == null && !('indexedDB' in window)) {
+                return;
+            }
+
+            var dbRequest = window.indexedDB.open('todosStore', this.todosStoreVersion);
+            dbRequest.onerror = function (event) {
+                console.log('todosStore IndexedDB storeTodo error:', event.target.errorCode);
+            };
+            dbRequest.onsuccess = function (event) {
+                var db = event.target.result;
+                var objectStore = db.transaction(['todos'], 'readwrite').objectStore('todos');
+                var request = objectStore.add(todo);
+                request.onerror = function (event) {
+                    console.log('Error while adding a todo:', event);
+                };
+            };
+        }
+    }, {
+        key: 'deleteTodo',
+        value: function deleteTodo(id) {
+            if (!('indexedDB' in window)) {
+                return;
+            }
+
+            var dbRequest = window.indexedDB.open('todosStore', this.todosStoreVersion);
+            dbRequest.onerror = function (event) {
+                console.log('todosStore IndexedDB deleteTodo error:', event.target.errorCode);
+            };
+            dbRequest.onsuccess = function (event) {
+                var db = event.target.result;
+                var objectStore = db.transaction('todos', 'readwrite').objectStore('todos');
+                var request = objectStore.delete(id);
+                request.onerror = function (event) {
+                    console.log('Error while deleting a todo:', event);
+                };
+            };
+        }
+    }, {
+        key: 'getTodo',
+        value: function getTodo(id) {
+            if (!('indexedDB' in window)) {
+                return;
+            }
+
+            var dbRequest = window.indexedDB.open('todosStore', this.todosStoreVersion);
+            dbRequest.onerror = function (event) {
+                console.log('todosStore IndexedDB getTodo error:', event.target.errorCode);
+            };
+            dbRequest.onsuccess = function (event) {
+                var db = event.target.result;
+                var objectStore = db.transaction('todos').objectStore('todos');
+                var request = objectStore.get(id);
+                request.onerror = function (event) {
+                    console.log('Error while getting a todo:', event);
+                };
+                request.onsuccess = function (event) {
+                    console.log('Name for the todo is', request.result.name);
+                };
+            };
+        }
+    }, {
+        key: 'updateTodo',
+        value: function updateTodo(id) {
+            var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var completed = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+            if (name == null && completed == null && !('indexedDB' in window)) {
+                return;
+            }
+
+            var dbRequest = window.indexedDB.open('todosStore', this.todosStoreVersion);
+            dbRequest.onerror = function (event) {
+                console.log('todosStore IndexedDB updateTodo error:', event.target.errorCode);
+            };
+            dbRequest.onsuccess = function (event) {
+                var db = event.target.result;
+                var objectStore = db.transaction('todos', 'readwrite').objectStore('todos');
+                var request = objectStore.get(id);
+                request.onerror = function (event) {
+                    console.log('Error while getting a todo for updating:', event);
+                };
+                request.onsuccess = function (event) {
+                    var data = event.target.result;
+                    if (name !== null) {
+                        data.name = name;
+                    }
+                    if (completed !== null) {
+                        data.completed = completed;
+                    }
+                    var requestUpdate = objectStore.put(data);
+                    requestUpdate.onerror = function (event) {
+                        console.log('Error while updating todo:', event);
+                    };
+                };
+            };
         }
     }, {
         key: 'adjustTodoCount',
@@ -37929,7 +38105,7 @@ var TodoList = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.state.todos == null) {
 
@@ -37975,7 +38151,7 @@ var TodoList = function (_Component) {
                             'ul',
                             null,
                             Object.keys(this.state.todos).map(function (key) {
-                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Todo__["default"], { key: key, id: key, details: _this2.state.todos[key], removeTodo: _this2.removeTodo });
+                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Todo__["default"], { key: key, id: key, details: _this3.state.todos[key], removeTodo: _this3.removeTodo, updateTodo: _this3.updateTodo });
                             })
                         )
                     )
