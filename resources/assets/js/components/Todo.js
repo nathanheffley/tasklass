@@ -42,7 +42,7 @@ export default class Todo extends Component {
         .catch(function (error) {
             this.toggleLoadingDelete();
             console.log('Failed to delete todo:', error);
-        });
+        }.bind(this));
     }
 
     toggleCompleted() {
