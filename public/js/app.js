@@ -14159,10 +14159,10 @@ var Todo = function (_Component) {
             if (this.state.editing) {
                 nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'todo--name-edit field has-addons' },
+                    { className: 'todo__name-edit field has-addons' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'control todo--name-edit-textfield' },
+                        { className: 'control todo__name-edit-textfield' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'input', type: 'text', name: 'name',
                             value: this.state.details.name,
                             onChange: this.handleNameChange })
@@ -14180,7 +14180,7 @@ var Todo = function (_Component) {
             } else {
                 nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
-                    { className: 'todo--name', onDoubleClick: this.startEditing },
+                    { className: 'todo__name', onDoubleClick: this.startEditing },
                     this.state.details.name
                 );
             }
@@ -14192,7 +14192,7 @@ var Todo = function (_Component) {
             if (this.state.editing) {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.handleNameSave, 'aria-label': 'Edit' },
+                    { className: 'todo__edit-button button is-primary is-outlined', onClick: this.handleNameSave, 'aria-label': 'Edit' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -14202,7 +14202,7 @@ var Todo = function (_Component) {
             } else {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'todo--edit-button button is-primary is-outlined', onClick: this.startEditing, 'aria-label': 'Edit' },
+                    { className: 'todo__edit-button button is-primary is-outlined', onClick: this.startEditing, 'aria-label': 'Edit' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -14215,7 +14215,7 @@ var Todo = function (_Component) {
                 'li',
                 { className: todoClasses },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: this.state.checkboxId,
-                    className: 'todo--checkbox',
+                    className: 'todo__checkbox',
                     'aria-label': 'Todo', type: 'checkbox',
                     checked: this.state.details.completed,
                     onChange: this.complete }),
@@ -14227,7 +14227,7 @@ var Todo = function (_Component) {
                 nameElement,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'p',
-                    { className: 'todo--actions field' },
+                    { className: 'todo__actions field' },
                     editButton,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
@@ -37910,9 +37910,9 @@ var TodoList = function (_Component) {
                             'div',
                             { className: 'container' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'h2',
+                                'ul',
                                 null,
-                                'Loading todos...'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', { className: 'todo todo--skeleton' })
                             )
                         )
                     ),

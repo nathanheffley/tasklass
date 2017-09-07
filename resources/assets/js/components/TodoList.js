@@ -49,7 +49,9 @@ export default class TodoList extends Component {
                 <div>
                     <section className="section">
                         <div className="container">
-                            <h2>Loading todos...</h2>
+                            <ul>
+                                <li className="todo todo--skeleton"></li>
+                            </ul>
                         </div>
                     </section>
                     <AddTodo addTodo={this.addTodo} />
@@ -60,7 +62,7 @@ export default class TodoList extends Component {
             <div>
                 <section className="section">
                     <div className="container">
-                        <ul >
+                        <ul>
                             {
                                 Object
                                     .keys(this.state.todos)

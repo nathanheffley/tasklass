@@ -13134,46 +13134,47 @@ label.panel-block:hover {
   margin-bottom: 1em;
 }
 
-.todo--checkbox {
+.todo__checkbox {
   display: none;
 }
 
-.todo--checkbox .fa {
-  margin-right: 0.5em;
+.todo .checkbox {
+  margin-top: 3px;
   text-decoration: none;
 }
 
-.todo--checkbox .fa-square-o {
+.todo .checkbox.fa-square-o {
   padding-right: 3px;
 }
 
-.todo--name {
+.todo__name {
   margin-right: auto;
   padding-left: calc(0.625em);
+  padding-top: 1px;
 }
 
-.todo--name-edit {
+.todo__name-edit {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   margin-right: 1rem;
 }
 
-.todo--name-edit-textfield {
+.todo__name-edit-textfield {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
 
-.todo--name-edit:not(:last-child) {
+.todo__name-edit:not(:last-child) {
   margin-bottom: 0;
 }
 
-.todo--actions .is-loading {
+.todo__actions .is-loading {
   background: transparent !important;
 }
 
-.todo--edit-button {
+.todo__edit-button {
   margin-right: 1rem;
 }
 
@@ -13181,7 +13182,14 @@ label.panel-block:hover {
   color: #aaa;
 }
 
-.todo.completed .todo--name {
+.todo.completed .todo__name {
   text-decoration: line-through;
+}
+
+.todo--skeleton {
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#777 17px, transparent 0), linear-gradient(#777 17px, transparent 0), linear-gradient(#00d1b2 36px, transparent 0), linear-gradient(#ff3860 36px, transparent 0);
+  background-size: 17px 17px, 200px 17px, 36px 36px, 36px 36px;
+  background-position: 2px 9px, 35px 9px, calc(100% - 52px) 0, calc(100%) 0;
 }
 

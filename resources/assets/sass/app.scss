@@ -17,14 +17,14 @@
 
     &__checkbox {
         display: none;
+    }
 
-        .fa {
-            margin-right: 0.5em;
-            text-decoration: none;
-        }
-        .fa-square-o {
-            padding-right: 3px;
-        }
+    .checkbox {
+        margin-top: 3px;
+        text-decoration: none;
+    }
+    .checkbox.fa-square-o {
+        padding-right: 3px;
     }
 
     &__name {
@@ -59,5 +59,28 @@
         .todo__name {
             text-decoration: line-through;
         }
+    }
+
+    &--skeleton {
+        background-repeat: no-repeat;
+        background-image:
+            /* checkbox */
+            linear-gradient(#777 17px, transparent 0),
+            /* name */
+            linear-gradient(#777 17px, transparent 0),
+            /* edit button */
+            linear-gradient($primary 36px, transparent 0),
+            /* delete button */
+            linear-gradient($danger 36px, transparent 0);
+        background-size:
+            17px 17px,
+            200px 17px,
+            36px 36px,
+            36px 36px;
+        background-position:
+            2px 9px,
+            35px 9px,
+            calc(100% - 52px) 0,
+            calc(100%) 0;
     }
 }
