@@ -89,6 +89,7 @@ class TodosController extends Controller
 
         $todo->update([
             'name' => request('name') ? request('name') : $todo->name,
+            'due' => request('due') ? request('due') : $todo->due,
         ]);
 
         return response()->json(['todo' => $todo], 200);
