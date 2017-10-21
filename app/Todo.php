@@ -12,7 +12,7 @@ class Todo extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'completed', 'weight'];
+    protected $fillable = ['name', 'completed', 'due', 'weight'];
 
     protected $casts = ['completed' => 'boolean'];
 
