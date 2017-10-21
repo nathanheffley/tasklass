@@ -24,6 +24,19 @@ class UserRegisterTest extends TestCase
 
         $response->assertRedirect('/todos');
         $this->assertTrue(Auth::check(), 'Failed asserting that the user was successfully logged in after registration.');
-        $this->assertEquals('john@example.com', Auth::user()->email);
+    }
+
+    /** @test */
+    public function registrationFailsIfPasswordConfirmationDoesNotMatch()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+
+        $response = $this->post('/register', [
+            'email' => 'john@example.com',
+            'password' => 'secret',
+            'password_confirmation' => 'wrongpassword',
+        ]);
     }
 }
