@@ -5,9 +5,12 @@ export default class Todo extends Component {
         super(props);
         this.state = {
             details: this.props.details,
+            due: this.props.details.due ? this.props.details.due : '',
             checkboxId: `todo-${this.props.details.id}`,
             editing: false,
+            editingDue: false,
             oldName: this.props.details.name,
+            oldDue: this.props.due,
             loadingDelete: false,
         }
 
@@ -15,10 +18,17 @@ export default class Todo extends Component {
         this.delete = this.delete.bind(this);
         this.toggleCompleted = this.toggleCompleted.bind(this);
         this.toggleLoadingDelete = this.toggleLoadingDelete.bind(this);
+
         this.startEditingName = this.startEditingName.bind(this);
         this.cancelEditingName = this.cancelEditingName.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSave = this.handleNameSave.bind(this);
+
+        this.startEditingDue = this.startEditingDue.bind(this);
+        this.cancelEditingDue = this.cancelEditingDue.bind(this);
+        this.handleDueChange = this.handleDueChange.bind(this);
+        this.handleDueSave = this.handleDueSave.bind(this);
+
         this.formatDate = this.formatDate.bind(this);
     }
 
@@ -97,8 +107,44 @@ export default class Todo extends Component {
         }.bind(this));
     }
 
+    startEditingDue() {
+        this.setState({editingDue: true});
+    }
+
+    cancelEditingDue() {
+        let due = this.state.due;
+        due = this.state.oldDue;
+        this.setState({due: due});
+
+        this.setState({editingDue: false});
+    }
+
+    handleDueChange(event) {
+        let due = this.state.due;
+        due = event.target.value;
+        this.setState({due: due});
+    }
+
+    handleDueSave() {
+        this.setState({editingDue: false});
+
+        if (this.state.due == this.state.oldDue) { return; }
+
+        window.axios.put(`/todos/${this.state.details.id}`, {'due': this.state.due})
+        .then(function (response) {
+            this.setState({oldDue: this.state.due});
+            this.props.updateTodo(this.state.details.id, this.state.due);
+        }.bind(this))
+        .catch(function (error) {
+            let details = this.state.details;
+            due = this.state.oldDue;
+            this.setState({details: details});
+            console.log(error);
+        }.bind(this));
+    }
+
     formatDate() {
-        return window.moment(this.state.details.due).format('MMM Do YYYY');
+        return window.moment(this.state.due).format('MMM Do YYYY');
     }
 
     render() {
@@ -134,15 +180,24 @@ export default class Todo extends Component {
             nameElement = <span className="todo__name" onDoubleClick={this.startEditingName}>{this.state.details.name}</span>;
         }
 
-        if (this.state.details.due) {
+        if (this.state.editingDue) {
+            dueElement = (
+                <span className="todo__due">
+                    <span className="icon" onClick={this.handleDueSave}>
+                        <i className="fa fa-clock-o"></i>
+                    </span>
+                    <input type="date" name="due" value={this.state.due} onChange={this.handleDueChange}/>
+                </span>
+            );
+        } else if (this.state.due) {
             let classes = 'todo__due';
-            let due = window.moment(this.state.details.due);
+            let due = window.moment(this.state.due);
             if (window.moment().diff(due) >= 0) {
                 classes += ' is-danger';
             }
 
             dueElement = (
-                <span className={classes}>
+                <span className={classes} onClick={this.startEditingDue}>
                     <span className="icon">
                         <i className="fa fa-clock-o"></i>
                     </span>
@@ -151,7 +206,7 @@ export default class Todo extends Component {
             );
         } else {
             dueElement = (
-                <span className="todo__due">
+                <span className="todo__due" onClick={this.startEditingDue}>
                     <span className="icon">
                         <i className="fa fa-clock-o"></i>
                     </span>

@@ -29999,9 +29999,12 @@ var Todo = function (_Component) {
 
         _this.state = {
             details: _this.props.details,
+            due: _this.props.details.due ? _this.props.details.due : '',
             checkboxId: 'todo-' + _this.props.details.id,
             editing: false,
+            editingDue: false,
             oldName: _this.props.details.name,
+            oldDue: _this.props.due,
             loadingDelete: false
         };
 
@@ -30009,10 +30012,17 @@ var Todo = function (_Component) {
         _this.delete = _this.delete.bind(_this);
         _this.toggleCompleted = _this.toggleCompleted.bind(_this);
         _this.toggleLoadingDelete = _this.toggleLoadingDelete.bind(_this);
+
         _this.startEditingName = _this.startEditingName.bind(_this);
         _this.cancelEditingName = _this.cancelEditingName.bind(_this);
         _this.handleNameChange = _this.handleNameChange.bind(_this);
         _this.handleNameSave = _this.handleNameSave.bind(_this);
+
+        _this.startEditingDue = _this.startEditingDue.bind(_this);
+        _this.cancelEditingDue = _this.cancelEditingDue.bind(_this);
+        _this.handleDueChange = _this.handleDueChange.bind(_this);
+        _this.handleDueSave = _this.handleDueSave.bind(_this);
+
         _this.formatDate = _this.formatDate.bind(_this);
         return _this;
     }
@@ -30097,9 +30107,49 @@ var Todo = function (_Component) {
             }.bind(this));
         }
     }, {
+        key: 'startEditingDue',
+        value: function startEditingDue() {
+            this.setState({ editingDue: true });
+        }
+    }, {
+        key: 'cancelEditingDue',
+        value: function cancelEditingDue() {
+            var due = this.state.due;
+            due = this.state.oldDue;
+            this.setState({ due: due });
+
+            this.setState({ editingDue: false });
+        }
+    }, {
+        key: 'handleDueChange',
+        value: function handleDueChange(event) {
+            var due = this.state.due;
+            due = event.target.value;
+            this.setState({ due: due });
+        }
+    }, {
+        key: 'handleDueSave',
+        value: function handleDueSave() {
+            this.setState({ editingDue: false });
+
+            if (this.state.due == this.state.oldDue) {
+                return;
+            }
+
+            window.axios.put('/todos/' + this.state.details.id, { 'due': this.state.due }).then(function (response) {
+                this.setState({ oldDue: this.state.due });
+                this.props.updateTodo(this.state.details.id, this.state.due);
+            }.bind(this)).catch(function (error) {
+                var details = this.state.details;
+                due = this.state.oldDue;
+                this.setState({ details: details });
+                console.log(error);
+            }.bind(this));
+        }
+    }, {
         key: 'formatDate',
         value: function formatDate() {
-            return window.moment(this.state.details.due).format('MMM Do YYYY');
+            return window.moment(this.state.due).format('MMM Do YYYY');
         }
     }, {
         key: 'render',
@@ -30155,16 +30205,27 @@ var Todo = function (_Component) {
                 );
             }
 
-            if (this.state.details.due) {
+            if (this.state.editingDue) {
+                dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { className: 'todo__due' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon', onClick: this.handleDueSave },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-clock-o' })
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'date', name: 'due', value: this.state.due, onChange: this.handleDueChange })
+                );
+            } else if (this.state.due) {
                 var classes = 'todo__due';
-                var due = window.moment(this.state.details.due);
-                if (window.moment().diff(due) >= 0) {
+                var _due = window.moment(this.state.due);
+                if (window.moment().diff(_due) >= 0) {
                     classes += ' is-danger';
                 }
 
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
-                    { className: classes },
+                    { className: classes, onClick: this.startEditingDue },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
@@ -30175,7 +30236,7 @@ var Todo = function (_Component) {
             } else {
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
-                    { className: 'todo__due' },
+                    { className: 'todo__due', onClick: this.startEditingDue },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
