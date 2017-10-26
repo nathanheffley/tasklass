@@ -5,9 +5,12 @@ export default class Todo extends Component {
         super(props);
         this.state = {
             details: this.props.details,
+            due: this.props.details.due ? this.props.details.due : '',
             checkboxId: `todo-${this.props.details.id}`,
-            editing: false,
+            editingName: false,
+            editingDue: false,
             oldName: this.props.details.name,
+            oldDue: this.props.details.due ? this.props.details.due : '',
             loadingDelete: false,
         }
 
@@ -15,10 +18,19 @@ export default class Todo extends Component {
         this.delete = this.delete.bind(this);
         this.toggleCompleted = this.toggleCompleted.bind(this);
         this.toggleLoadingDelete = this.toggleLoadingDelete.bind(this);
-        this.startEditing = this.startEditing.bind(this);
-        this.cancelEditing = this.cancelEditing.bind(this);
+
+        this.startEditingName = this.startEditingName.bind(this);
+        this.cancelEditingName = this.cancelEditingName.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSave = this.handleNameSave.bind(this);
+
+        this.startEditingDue = this.startEditingDue.bind(this);
+        this.cancelEditingDue = this.cancelEditingDue.bind(this);
+        this.deleteDue = this.deleteDue.bind(this);
+        this.handleDueChange = this.handleDueChange.bind(this);
+        this.handleDueSave = this.handleDueSave.bind(this);
+
+        this.formatDate = this.formatDate.bind(this);
     }
 
     complete() {
@@ -60,16 +72,16 @@ export default class Todo extends Component {
         this.setState({loadingDelete: loadingDelete});
     }
 
-    startEditing() {
-        this.setState({editing: true});
+    startEditingName() {
+        this.setState({editingName: true});
     }
 
-    cancelEditing() {
+    cancelEditingName() {
         let details = this.state.details;
         details.name = this.state.oldName;
         this.setState({details: details});
 
-        this.setState({editing: false});
+        this.setState({editingName: false});
     }
 
     handleNameChange(event) {
@@ -79,11 +91,11 @@ export default class Todo extends Component {
     }
 
     handleNameSave() {
-        this.setState({editing: false});
+        this.setState({editingName: false});
 
         if (this.state.details.name == this.state.oldName) { return; }
 
-        window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
+        window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name, 'due': null})
         .then(function (response) {
             this.setState({oldName: this.state.details.name});
             this.props.updateTodo(this.state.details.id, this.state.details.name);
@@ -95,11 +107,68 @@ export default class Todo extends Component {
             console.log(error);
         }.bind(this));
     }
-    
+
+    startEditingDue() {
+        this.setState({editingDue: true});
+    }
+
+    cancelEditingDue() {
+        let due = this.state.due;
+        due = this.state.oldDue;
+        this.setState({due: due});
+
+        this.setState({editingDue: false});
+    }
+
+    deleteDue() {
+        this.setState({editingDue: false, due: ''});
+
+        window.axios.put(`/todos/${this.state.details.id}`, {'due': false})
+        .then(function (response) {
+            this.setState({oldDue: ''});
+            // this.props.updateTodo(this.state.details.id, '');
+        }.bind(this))
+        .catch(function (error) {
+            let due = this.state.due;
+            due = this.state.oldDue;
+            this.setState({due: due});
+            console.log(error);
+        }.bind(this));
+    }
+
+    handleDueChange(event) {
+        let due = this.state.due;
+        due = event.target.value;
+        this.setState({due: due});
+    }
+
+    handleDueSave() {
+        this.setState({editingDue: false});
+
+        if (this.state.due == this.state.oldDue) { return; }
+
+        window.axios.put(`/todos/${this.state.details.id}`, {'due': this.state.due})
+        .then(function (response) {
+            this.setState({oldDue: this.state.due});
+            this.props.updateTodo(this.state.details.id, this.state.due);
+        }.bind(this))
+        .catch(function (error) {
+            let details = this.state.details;
+            due = this.state.oldDue;
+            this.setState({details: details});
+            console.log(error);
+        }.bind(this));
+    }
+
+    formatDate() {
+        return window.moment(this.state.due).format('MMM Do YYYY');
+    }
+
     render() {
         let todoClasses = "todo";
         let checkboxLabel;
         let nameElement;
+        let dueElement;
         let editButton;
         let deleteButtonClasses = "button is-danger is-outlined";
 
@@ -110,7 +179,7 @@ export default class Todo extends Component {
             checkboxLabel = <span className="icon"><i className="fa fa-square-o checkbox"></i></span>;
         }
 
-        if (this.state.editing) {
+        if (this.state.editingName) {
             nameElement = (
                 <div className="todo__name-edit field has-addons">
                     <div className="control todo__name-edit-textfield">
@@ -120,19 +189,59 @@ export default class Todo extends Component {
                         </input>
                     </div>
                     <div className="control">
-                        <button className="button is-warning" onClick={this.cancelEditing}>Cancel</button>
+                        <button className="button is-warning" onClick={this.cancelEditingName}>Cancel</button>
                     </div>
                 </div>
             );
         } else {
-            nameElement = <span className="todo__name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
+            nameElement = <span className="todo__name" onDoubleClick={this.startEditingName}>{this.state.details.name}</span>;
+        }
+
+        if (this.state.editingDue) {
+            dueElement = (
+                <span className="todo__due">
+                    <span className="icon remove" onClick={this.deleteDue}>
+                        <i className="fa fa-trash"></i>
+                    </span>
+                    <span className="icon cancel" onClick={this.cancelEditingDue}>
+                        <i className="fa fa-times"></i>
+                    </span>
+                    <span className="icon save" onClick={this.handleDueSave}>
+                        <i className="fa fa-save"></i>
+                    </span>
+                    <input type="date" name="due" value={this.state.due} onChange={this.handleDueChange}/>
+                </span>
+            );
+        } else if (this.state.due) {
+            let classes = 'todo__due';
+            let due = window.moment(this.state.due);
+            if (window.moment().diff(due) >= 0) {
+                classes += ' is-danger';
+            }
+
+            dueElement = (
+                <span className={classes} onClick={this.startEditingDue}>
+                    <span className="icon">
+                        <i className="fa fa-clock-o"></i>
+                    </span>
+                    {this.formatDate()}
+                </span>
+            );
+        } else {
+            dueElement = (
+                <span className="todo__due" onClick={this.startEditingDue}>
+                    <span className="icon">
+                        <i className="fa fa-clock-o"></i>
+                    </span>
+                </span>
+            );
         }
 
         if (this.state.loadingDelete) {
             deleteButtonClasses += " is-loading";
         }
 
-        if (this.state.editing) {
+        if (this.state.editingName) {
             editButton = (
                 <button className="todo__edit-button button is-primary is-outlined" onClick={this.handleNameSave} aria-label="Edit">
                     <span className="icon"><i className="fa fa-save"></i></span>
@@ -140,7 +249,7 @@ export default class Todo extends Component {
             );
         } else {
             editButton = (
-                <button className="todo__edit-button button is-primary is-outlined" onClick={this.startEditing} aria-label="Edit">
+                <button className="todo__edit-button button is-primary is-outlined" onClick={this.startEditingName} aria-label="Edit">
                     <span className="icon"><i className="fa fa-pencil"></i></span>
                 </button>
             );
@@ -159,6 +268,8 @@ export default class Todo extends Component {
                 </label>
 
                 {nameElement}
+
+                {dueElement}
 
                 <p className="todo__actions field">
                     {editButton}

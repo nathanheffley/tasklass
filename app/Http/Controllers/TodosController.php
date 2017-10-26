@@ -42,14 +42,19 @@ class TodosController extends Controller
             ])], 401);
         }
 
-        $data = request()->only(['name', 'weight']);
+        $data = request()->only(['name', 'due', 'weight']);
 
         $validator = Validator::make($data, [
             'name' => ['required'],
+            'due' => ['nullable'],
             'weight' => ['numeric', 'nullable'],
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if (! array_key_exists('due', $data)) {
+            $data['due'] = null;
         }
 
         if (array_key_exists('weight', $data)) {
@@ -63,6 +68,7 @@ class TodosController extends Controller
         $todo = Auth::user()->todos()->create([
             'name' => $data['name'],
             'completed' => false,
+            'due' => $data['due'],
             'weight' => (int) $data['weight'],
         ]);
 
@@ -81,9 +87,17 @@ class TodosController extends Controller
             }
         }
 
-        $todo->update([
-            'name' => request('name') ? request('name') : $todo->name,
-        ]);
+        if (request('name') !== null) {
+            $todo->name = request('name');
+        }
+
+        if (request('due') === false) {
+            $todo->due = null;
+        } elseif (request('due') !== null) {
+            $todo->due = request('due');
+        }
+
+        $todo->save();
 
         return response()->json(['todo' => $todo], 200);
     }

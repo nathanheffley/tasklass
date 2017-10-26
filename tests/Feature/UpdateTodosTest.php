@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Todo;
 use App\User;
+use Carbon\Carbon;
 use Tests\TestCase;
 use PHPUnit\Framework\Assert;
 use Illuminate\Database\Eloquent\Collection;
@@ -101,6 +102,36 @@ class UpdateTodosTest extends TestCase
         tap(Todo::first(), function ($todo) use ($user) {
             $this->assertTrue($todo->user->is($user));
             $this->assertEquals('Renamed Todo', $todo->name);
+        });
+    }
+
+    /** @test */
+    public function movingTodosDueDate()
+    {
+        $this->withoutExceptionHandling();
+
+        $oldDueDate = Carbon::now()->addDays(5)->toDateTimeString();
+        $newDueDate = Carbon::now()->addDays(10)->toDateTimeString();
+
+        $user = factory(User::class)->create();
+        $todo = factory(Todo::class)->create([
+            'user_id' => $user->id,
+            'due' => $oldDueDate,
+        ]);
+
+        $response = $this->actingAs($user)->put("/todos/{$todo->id}", [
+            'due' => $newDueDate,
+        ]);
+
+        $response->assertStatus(200);
+
+        // Assert that the server responds with success data
+        $this->assertEquals($newDueDate, $response->original['todo']->due);
+
+        // Assert that the todo was updated in the database
+        tap(Todo::first(), function ($todo) use ($user, $newDueDate) {
+            $this->assertTrue($todo->user->is($user));
+            $this->assertEquals($newDueDate, $todo->due);
         });
     }
 
