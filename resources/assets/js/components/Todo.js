@@ -15,8 +15,8 @@ export default class Todo extends Component {
         this.delete = this.delete.bind(this);
         this.toggleCompleted = this.toggleCompleted.bind(this);
         this.toggleLoadingDelete = this.toggleLoadingDelete.bind(this);
-        this.startEditing = this.startEditing.bind(this);
-        this.cancelEditing = this.cancelEditing.bind(this);
+        this.startEditingName = this.startEditingName.bind(this);
+        this.cancelEditingName = this.cancelEditingName.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSave = this.handleNameSave.bind(this);
         this.formatDate = this.formatDate.bind(this);
@@ -61,11 +61,11 @@ export default class Todo extends Component {
         this.setState({loadingDelete: loadingDelete});
     }
 
-    startEditing() {
+    startEditingName() {
         this.setState({editing: true});
     }
 
-    cancelEditing() {
+    cancelEditingName() {
         let details = this.state.details;
         details.name = this.state.oldName;
         this.setState({details: details});
@@ -84,7 +84,7 @@ export default class Todo extends Component {
 
         if (this.state.details.name == this.state.oldName) { return; }
 
-        window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name})
+        window.axios.put(`/todos/${this.state.details.id}`, {'name': this.state.details.name, 'due': null})
         .then(function (response) {
             this.setState({oldName: this.state.details.name});
             this.props.updateTodo(this.state.details.id, this.state.details.name);
@@ -126,12 +126,12 @@ export default class Todo extends Component {
                         </input>
                     </div>
                     <div className="control">
-                        <button className="button is-warning" onClick={this.cancelEditing}>Cancel</button>
+                        <button className="button is-warning" onClick={this.cancelEditingName}>Cancel</button>
                     </div>
                 </div>
             );
         } else {
-            nameElement = <span className="todo__name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
+            nameElement = <span className="todo__name" onDoubleClick={this.startEditingName}>{this.state.details.name}</span>;
         }
 
         if (this.state.details.due) {
@@ -171,7 +171,7 @@ export default class Todo extends Component {
             );
         } else {
             editButton = (
-                <button className="todo__edit-button button is-primary is-outlined" onClick={this.startEditing} aria-label="Edit">
+                <button className="todo__edit-button button is-primary is-outlined" onClick={this.startEditingName} aria-label="Edit">
                     <span className="icon"><i className="fa fa-pencil"></i></span>
                 </button>
             );

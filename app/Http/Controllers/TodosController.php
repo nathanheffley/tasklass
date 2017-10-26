@@ -87,10 +87,15 @@ class TodosController extends Controller
             }
         }
 
-        $todo->update([
-            'name' => request('name') ? request('name') : $todo->name,
-            'due' => request('due') ? request('due') : $todo->due,
-        ]);
+        if (request('name') !== null) {
+            $todo->name = request('name');
+        }
+
+        if (request('due') !== null) {
+            $todo->due = request('due');
+        }
+
+        $todo->save();
 
         return response()->json(['todo' => $todo], 200);
     }

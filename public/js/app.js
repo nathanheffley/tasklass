@@ -30009,8 +30009,8 @@ var Todo = function (_Component) {
         _this.delete = _this.delete.bind(_this);
         _this.toggleCompleted = _this.toggleCompleted.bind(_this);
         _this.toggleLoadingDelete = _this.toggleLoadingDelete.bind(_this);
-        _this.startEditing = _this.startEditing.bind(_this);
-        _this.cancelEditing = _this.cancelEditing.bind(_this);
+        _this.startEditingName = _this.startEditingName.bind(_this);
+        _this.cancelEditingName = _this.cancelEditingName.bind(_this);
         _this.handleNameChange = _this.handleNameChange.bind(_this);
         _this.handleNameSave = _this.handleNameSave.bind(_this);
         _this.formatDate = _this.formatDate.bind(_this);
@@ -30057,13 +30057,13 @@ var Todo = function (_Component) {
             this.setState({ loadingDelete: loadingDelete });
         }
     }, {
-        key: 'startEditing',
-        value: function startEditing() {
+        key: 'startEditingName',
+        value: function startEditingName() {
             this.setState({ editing: true });
         }
     }, {
-        key: 'cancelEditing',
-        value: function cancelEditing() {
+        key: 'cancelEditingName',
+        value: function cancelEditingName() {
             var details = this.state.details;
             details.name = this.state.oldName;
             this.setState({ details: details });
@@ -30086,7 +30086,7 @@ var Todo = function (_Component) {
                 return;
             }
 
-            window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name }).then(function (response) {
+            window.axios.put('/todos/' + this.state.details.id, { 'name': this.state.details.name, 'due': null }).then(function (response) {
                 this.setState({ oldName: this.state.details.name });
                 this.props.updateTodo(this.state.details.id, this.state.details.name);
             }.bind(this)).catch(function (error) {
@@ -30142,7 +30142,7 @@ var Todo = function (_Component) {
                         { className: 'control' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'button',
-                            { className: 'button is-warning', onClick: this.cancelEditing },
+                            { className: 'button is-warning', onClick: this.cancelEditingName },
                             'Cancel'
                         )
                     )
@@ -30150,7 +30150,7 @@ var Todo = function (_Component) {
             } else {
                 nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
-                    { className: 'todo__name', onDoubleClick: this.startEditing },
+                    { className: 'todo__name', onDoubleClick: this.startEditingName },
                     this.state.details.name
                 );
             }
@@ -30201,7 +30201,7 @@ var Todo = function (_Component) {
             } else {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
-                    { className: 'todo__edit-button button is-primary is-outlined', onClick: this.startEditing, 'aria-label': 'Edit' },
+                    { className: 'todo__edit-button button is-primary is-outlined', onClick: this.startEditingName, 'aria-label': 'Edit' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon' },
