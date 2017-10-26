@@ -13119,6 +13119,10 @@ label.panel-block:hover {
           text-decoration-skip: ink;
 }
 
+span.is-danger {
+  color: #ff3860;
+}
+
 .flex-right {
   margin-left: auto;
 }

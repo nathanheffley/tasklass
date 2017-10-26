@@ -135,9 +135,26 @@ export default class Todo extends Component {
         }
 
         if (this.state.details.due) {
+            let classes = 'todo__due';
+            let due = window.moment(this.state.details.due);
+            if (window.moment().diff(due) >= 0) {
+                classes += ' is-danger';
+            }
+
+            dueElement = (
+                <span className={classes}>
+                    <span className="icon">
+                        <i className="fa fa-clock-o"></i>
+                    </span>
+                    {this.formatDate()}
+                </span>
+            );
+        } else {
             dueElement = (
                 <span className="todo__due">
-                    {this.formatDate()}
+                    <span className="icon">
+                        <i className="fa fa-clock-o"></i>
+                    </span>
                 </span>
             );
         }

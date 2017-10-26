@@ -5,6 +5,10 @@
     text-decoration-skip: ink;
 }
 
+span.is-danger {
+    color: $danger;
+}
+
 .flex-right {
     margin-left: auto;
 }

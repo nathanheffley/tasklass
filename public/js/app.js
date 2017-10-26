@@ -14196,10 +14196,31 @@ var Todo = function (_Component) {
             }
 
             if (this.state.details.due) {
+                var classes = 'todo__due';
+                var due = window.moment(this.state.details.due);
+                if (window.moment().diff(due) >= 0) {
+                    classes += ' is-danger';
+                }
+
+                dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    { className: classes },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-clock-o' })
+                    ),
+                    this.formatDate()
+                );
+            } else {
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
                     { className: 'todo__due' },
-                    this.formatDate()
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-clock-o' })
+                    )
                 );
             }
 
