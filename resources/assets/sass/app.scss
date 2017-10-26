@@ -76,6 +76,8 @@ span.is-danger {
             linear-gradient(#777 17px, transparent 0),
             /* name */
             linear-gradient(#777 17px, transparent 0),
+            /* clock */
+            radial-gradient(circle 9px, #777 100%, transparent 0),
             /* edit button */
             linear-gradient($primary 36px, transparent 0),
             /* delete button */
@@ -83,11 +85,13 @@ span.is-danger {
         background-size:
             17px 17px,
             200px 17px,
+            18px 18px,
             36px 36px,
             36px 36px;
         background-position:
             2px 9px,
             35px 9px,
+            calc(100% - 107.5px) 8.5px,
             calc(100% - 52px) 0,
             calc(100%) 0;
     }
