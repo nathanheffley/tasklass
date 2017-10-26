@@ -30001,10 +30001,10 @@ var Todo = function (_Component) {
             details: _this.props.details,
             due: _this.props.details.due ? _this.props.details.due : '',
             checkboxId: 'todo-' + _this.props.details.id,
-            editing: false,
+            editingName: false,
             editingDue: false,
             oldName: _this.props.details.name,
-            oldDue: _this.props.due,
+            oldDue: _this.props.details.due ? _this.props.details.due : '',
             loadingDelete: false
         };
 
@@ -30069,7 +30069,7 @@ var Todo = function (_Component) {
     }, {
         key: 'startEditingName',
         value: function startEditingName() {
-            this.setState({ editing: true });
+            this.setState({ editingName: true });
         }
     }, {
         key: 'cancelEditingName',
@@ -30078,7 +30078,7 @@ var Todo = function (_Component) {
             details.name = this.state.oldName;
             this.setState({ details: details });
 
-            this.setState({ editing: false });
+            this.setState({ editingName: false });
         }
     }, {
         key: 'handleNameChange',
@@ -30090,7 +30090,7 @@ var Todo = function (_Component) {
     }, {
         key: 'handleNameSave',
         value: function handleNameSave() {
-            this.setState({ editing: false });
+            this.setState({ editingName: false });
 
             if (this.state.details.name == this.state.oldName) {
                 return;
@@ -30176,7 +30176,7 @@ var Todo = function (_Component) {
                 );
             }
 
-            if (this.state.editing) {
+            if (this.state.editingName) {
                 nameElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'todo__name-edit field has-addons' },
@@ -30249,7 +30249,7 @@ var Todo = function (_Component) {
                 deleteButtonClasses += " is-loading";
             }
 
-            if (this.state.editing) {
+            if (this.state.editingName) {
                 editButton = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',
                     { className: 'todo__edit-button button is-primary is-outlined', onClick: this.handleNameSave, 'aria-label': 'Edit' },

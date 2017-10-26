@@ -7,10 +7,10 @@ export default class Todo extends Component {
             details: this.props.details,
             due: this.props.details.due ? this.props.details.due : '',
             checkboxId: `todo-${this.props.details.id}`,
-            editing: false,
+            editingName: false,
             editingDue: false,
             oldName: this.props.details.name,
-            oldDue: this.props.due,
+            oldDue: this.props.details.due ? this.props.details.due : '',
             loadingDelete: false,
         }
 
@@ -72,7 +72,7 @@ export default class Todo extends Component {
     }
 
     startEditingName() {
-        this.setState({editing: true});
+        this.setState({editingName: true});
     }
 
     cancelEditingName() {
@@ -80,7 +80,7 @@ export default class Todo extends Component {
         details.name = this.state.oldName;
         this.setState({details: details});
 
-        this.setState({editing: false});
+        this.setState({editingName: false});
     }
 
     handleNameChange(event) {
@@ -90,7 +90,7 @@ export default class Todo extends Component {
     }
 
     handleNameSave() {
-        this.setState({editing: false});
+        this.setState({editingName: false});
 
         if (this.state.details.name == this.state.oldName) { return; }
 
@@ -162,7 +162,7 @@ export default class Todo extends Component {
             checkboxLabel = <span className="icon"><i className="fa fa-square-o checkbox"></i></span>;
         }
 
-        if (this.state.editing) {
+        if (this.state.editingName) {
             nameElement = (
                 <div className="todo__name-edit field has-addons">
                     <div className="control todo__name-edit-textfield">
@@ -218,7 +218,7 @@ export default class Todo extends Component {
             deleteButtonClasses += " is-loading";
         }
 
-        if (this.state.editing) {
+        if (this.state.editingName) {
             editButton = (
                 <button className="todo__edit-button button is-primary is-outlined" onClick={this.handleNameSave} aria-label="Edit">
                     <span className="icon"><i className="fa fa-save"></i></span>
