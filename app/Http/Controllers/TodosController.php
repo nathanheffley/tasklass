@@ -93,7 +93,7 @@ class TodosController extends Controller
 
         if (request('due') === false) {
             $todo->due = null;
-        } else if (request('due') !== null) {
+        } elseif (request('due') !== null) {
             $todo->due = request('due');
         }
 
