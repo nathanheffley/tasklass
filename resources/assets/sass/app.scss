@@ -16,7 +16,6 @@ span.is-danger {
 .todo {
     align-items: center;
     display: flex;
-    height: 2.25em;
     margin-bottom: 1em;
 
     &__checkbox {
@@ -49,10 +48,20 @@ span.is-danger {
     }
 
     &__due {
+        flex-shrink: 0;
+        line-height: 1;
         margin-right: 1em;
+
+        .save {
+            margin: 0 1em 0 .75em;
+        }
+        .cancel, .save {
+            color: $grey-dark;
+        }
     }
 
     &__actions {
+        flex-shrink: 0;
         .is-loading {
             background: transparent !important;
         }
@@ -64,7 +73,8 @@ span.is-danger {
 
     &.completed {
         color: #aaa;
-        .todo__name {
+        .todo__name,
+        .todo__due {
             text-decoration: line-through;
         }
     }

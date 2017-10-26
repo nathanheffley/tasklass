@@ -13134,7 +13134,6 @@ span.is-danger {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 2.25em;
   margin-bottom: 1em;
 }
 
@@ -13175,7 +13174,24 @@ span.is-danger {
 }
 
 .todo__due {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  line-height: 1;
   margin-right: 1em;
+}
+
+.todo__due .save {
+  margin: 0 1em 0 .75em;
+}
+
+.todo__due .cancel,
+.todo__due .save {
+  color: #4a4a4a;
+}
+
+.todo__actions {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 
 .todo__actions .is-loading {
@@ -13190,7 +13206,8 @@ span.is-danger {
   color: #aaa;
 }
 
-.todo.completed .todo__name {
+.todo.completed .todo__name,
+.todo.completed .todo__due {
   text-decoration: line-through;
 }
 

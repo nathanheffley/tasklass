@@ -183,8 +183,11 @@ export default class Todo extends Component {
         if (this.state.editingDue) {
             dueElement = (
                 <span className="todo__due">
-                    <span className="icon" onClick={this.handleDueSave}>
-                        <i className="fa fa-clock-o"></i>
+                    <span className="icon cancel" onClick={this.cancelEditingDue}>
+                        <i className="fa fa-times"></i>
+                    </span>
+                    <span className="icon save" onClick={this.handleDueSave}>
+                        <i className="fa fa-save"></i>
                     </span>
                     <input type="date" name="due" value={this.state.due} onChange={this.handleDueChange}/>
                 </span>
