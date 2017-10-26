@@ -19,6 +19,7 @@ export default class Todo extends Component {
         this.cancelEditing = this.cancelEditing.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNameSave = this.handleNameSave.bind(this);
+        this.formatDate = this.formatDate.bind(this);
     }
 
     complete() {
@@ -95,11 +96,16 @@ export default class Todo extends Component {
             console.log(error);
         }.bind(this));
     }
-    
+
+    formatDate() {
+        return window.moment(this.state.details.due).format('MMM Do YYYY');
+    }
+
     render() {
         let todoClasses = "todo";
         let checkboxLabel;
         let nameElement;
+        let dueElement;
         let editButton;
         let deleteButtonClasses = "button is-danger is-outlined";
 
@@ -126,6 +132,14 @@ export default class Todo extends Component {
             );
         } else {
             nameElement = <span className="todo__name" onDoubleClick={this.startEditing}>{this.state.details.name}</span>;
+        }
+
+        if (this.state.details.due) {
+            dueElement = (
+                <span className="todo__due">
+                    {this.formatDate()}
+                </span>
+            );
         }
 
         if (this.state.loadingDelete) {
@@ -159,6 +173,8 @@ export default class Todo extends Component {
                 </label>
 
                 {nameElement}
+
+                {dueElement}
 
                 <p className="todo__actions field">
                     {editButton}

@@ -44,6 +44,10 @@
         }
     }
 
+    &__due {
+        margin-right: 1em;
+    }
+
     &__actions {
         .is-loading {
             background: transparent !important;

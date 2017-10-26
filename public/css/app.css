@@ -13170,6 +13170,10 @@ label.panel-block:hover {
   margin-bottom: 0;
 }
 
+.todo__due {
+  margin-right: 1em;
+}
+
 .todo__actions .is-loading {
   background: transparent !important;
 }
