@@ -14166,7 +14166,7 @@ var Todo = function (_Component) {
         value: function deleteDue() {
             this.setState({ editingDue: false, due: '' });
 
-            window.axios.put('/todos/' + this.state.details.id, { 'due': '' }).then(function (response) {
+            window.axios.put('/todos/' + this.state.details.id, { 'due': false }).then(function (response) {
                 this.setState({ oldDue: '' });
                 // this.props.updateTodo(this.state.details.id, '');
             }.bind(this)).catch(function (error) {

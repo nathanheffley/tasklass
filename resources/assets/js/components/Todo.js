@@ -123,7 +123,7 @@ export default class Todo extends Component {
     deleteDue() {
         this.setState({editingDue: false, due: ''});
 
-        window.axios.put(`/todos/${this.state.details.id}`, {'due': ''})
+        window.axios.put(`/todos/${this.state.details.id}`, {'due': false})
         .then(function (response) {
             this.setState({oldDue: ''});
             // this.props.updateTodo(this.state.details.id, '');
