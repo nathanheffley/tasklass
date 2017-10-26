@@ -30020,6 +30020,7 @@ var Todo = function (_Component) {
 
         _this.startEditingDue = _this.startEditingDue.bind(_this);
         _this.cancelEditingDue = _this.cancelEditingDue.bind(_this);
+        _this.deleteDue = _this.deleteDue.bind(_this);
         _this.handleDueChange = _this.handleDueChange.bind(_this);
         _this.handleDueSave = _this.handleDueSave.bind(_this);
 
@@ -30121,6 +30122,21 @@ var Todo = function (_Component) {
             this.setState({ editingDue: false });
         }
     }, {
+        key: 'deleteDue',
+        value: function deleteDue() {
+            this.setState({ editingDue: false, due: '' });
+
+            window.axios.put('/todos/' + this.state.details.id, { 'due': '' }).then(function (response) {
+                this.setState({ oldDue: '' });
+                // this.props.updateTodo(this.state.details.id, '');
+            }.bind(this)).catch(function (error) {
+                var due = this.state.due;
+                due = this.state.oldDue;
+                this.setState({ due: due });
+                console.log(error);
+            }.bind(this));
+        }
+    }, {
         key: 'handleDueChange',
         value: function handleDueChange(event) {
             var due = this.state.due;
@@ -30209,6 +30225,11 @@ var Todo = function (_Component) {
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'span',
                     { className: 'todo__due' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'icon remove', onClick: this.deleteDue },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash' })
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'span',
                         { className: 'icon cancel', onClick: this.cancelEditingDue },

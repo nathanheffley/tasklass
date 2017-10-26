@@ -26,6 +26,7 @@ export default class Todo extends Component {
 
         this.startEditingDue = this.startEditingDue.bind(this);
         this.cancelEditingDue = this.cancelEditingDue.bind(this);
+        this.deleteDue = this.deleteDue.bind(this);
         this.handleDueChange = this.handleDueChange.bind(this);
         this.handleDueSave = this.handleDueSave.bind(this);
 
@@ -119,6 +120,22 @@ export default class Todo extends Component {
         this.setState({editingDue: false});
     }
 
+    deleteDue() {
+        this.setState({editingDue: false, due: ''});
+
+        window.axios.put(`/todos/${this.state.details.id}`, {'due': ''})
+        .then(function (response) {
+            this.setState({oldDue: ''});
+            // this.props.updateTodo(this.state.details.id, '');
+        }.bind(this))
+        .catch(function (error) {
+            let due = this.state.due;
+            due = this.state.oldDue;
+            this.setState({due: due});
+            console.log(error);
+        }.bind(this));
+    }
+
     handleDueChange(event) {
         let due = this.state.due;
         due = event.target.value;
@@ -183,6 +200,9 @@ export default class Todo extends Component {
         if (this.state.editingDue) {
             dueElement = (
                 <span className="todo__due">
+                    <span className="icon remove" onClick={this.deleteDue}>
+                        <i className="fa fa-trash"></i>
+                    </span>
                     <span className="icon cancel" onClick={this.cancelEditingDue}>
                         <i className="fa fa-times"></i>
                     </span>

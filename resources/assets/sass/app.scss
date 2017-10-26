@@ -52,6 +52,12 @@ span.is-danger {
         line-height: 1;
         margin-right: 1em;
 
+        .remove {
+            color: $danger;
+        }
+        .cancel {
+            margin-left: .75em;
+        }
         .save {
             margin: 0 1em 0 .75em;
         }

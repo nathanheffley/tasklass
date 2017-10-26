@@ -13180,6 +13180,14 @@ span.is-danger {
   margin-right: 1em;
 }
 
+.todo__due .remove {
+  color: #ff3860;
+}
+
+.todo__due .cancel {
+  margin-left: .75em;
+}
+
 .todo__due .save {
   margin: 0 1em 0 .75em;
 }
