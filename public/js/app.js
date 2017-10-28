@@ -30245,8 +30245,13 @@ var Todo = function (_Component) {
             } else if (this.state.due) {
                 var classes = 'todo__due';
                 var _due = window.moment(this.state.due);
-                if (window.moment().diff(_due) >= 0) {
-                    classes += ' is-danger';
+                var dueDiff = window.moment().diff(_due, 'hours');
+                if (dueDiff >= 0) {
+                    if (dueDiff <= 24) {
+                        classes += ' is-info';
+                    } else {
+                        classes += ' is-danger';
+                    }
                 }
 
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

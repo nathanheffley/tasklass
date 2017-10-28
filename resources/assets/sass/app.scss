@@ -5,6 +5,10 @@
     text-decoration-skip: ink;
 }
 
+span.is-info {
+    color: $info;
+}
+
 span.is-danger {
     color: $danger;
 }

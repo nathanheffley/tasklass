@@ -215,8 +215,13 @@ export default class Todo extends Component {
         } else if (this.state.due) {
             let classes = 'todo__due';
             let due = window.moment(this.state.due);
-            if (window.moment().diff(due) >= 0) {
-                classes += ' is-danger';
+            let dueDiff = window.moment().diff(due, 'hours');
+            if (dueDiff >= 0) {
+                if (dueDiff <= 24) {
+                    classes += ' is-info';
+                } else {
+                    classes += ' is-danger';
+                }
             }
 
             dueElement = (
