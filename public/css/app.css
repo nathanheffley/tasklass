@@ -13152,7 +13152,7 @@ span.is-danger {
 
 .todo__name {
   margin-right: auto;
-  padding-left: calc(0.625em);
+  padding-left: .625em;
   padding-top: 1px;
 }
 
@@ -13174,10 +13174,16 @@ span.is-danger {
 }
 
 .todo__due {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   line-height: 1;
-  margin-right: 1em;
+  margin: 0 1em;
 }
 
 .todo__due .remove {
@@ -13195,6 +13201,10 @@ span.is-danger {
 .todo__due .cancel,
 .todo__due .save {
   color: #4a4a4a;
+}
+
+.todo__due input {
+  border-radius: 3px;
 }
 
 .todo__actions {
@@ -13216,6 +13226,7 @@ span.is-danger {
 
 .todo.completed .todo__name,
 .todo.completed .todo__due {
+  color: #aaa;
   text-decoration: line-through;
 }
 

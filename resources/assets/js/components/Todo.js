@@ -209,7 +209,7 @@ export default class Todo extends Component {
                     <span className="icon save" onClick={this.handleDueSave}>
                         <i className="fa fa-save"></i>
                     </span>
-                    <input type="date" name="due" value={this.state.due} onChange={this.handleDueChange}/>
+                    <input type="date" name="due" className="input" value={this.state.due} onChange={this.handleDueChange}/>
                 </span>
             );
         } else if (this.state.due) {

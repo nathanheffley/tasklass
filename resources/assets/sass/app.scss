@@ -32,7 +32,7 @@ span.is-danger {
 
     &__name {
         margin-right: auto;
-        padding-left: calc(0.625em);
+        padding-left: .625em;
         padding-top: 1px;
     }
 
@@ -48,9 +48,11 @@ span.is-danger {
     }
 
     &__due {
+        align-items: center;
+        display: flex;
         flex-shrink: 0;
         line-height: 1;
-        margin-right: 1em;
+        margin: 0 1em;
 
         .remove {
             color: $danger;
@@ -63,6 +65,10 @@ span.is-danger {
         }
         .cancel, .save {
             color: $grey-dark;
+        }
+
+        input {
+            border-radius: 3px;
         }
     }
 
@@ -81,6 +87,7 @@ span.is-danger {
         color: #aaa;
         .todo__name,
         .todo__due {
+            color: #aaa;
             text-decoration: line-through;
         }
     }
