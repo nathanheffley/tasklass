@@ -13231,6 +13231,9 @@ span.is-danger {
 .todo.completed .todo__name,
 .todo.completed .todo__due {
   color: #aaa;
+}
+
+.todo.completed .todo__date {
   text-decoration: line-through;
 }
 

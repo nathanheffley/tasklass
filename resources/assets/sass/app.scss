@@ -92,6 +92,8 @@ span.is-danger {
         .todo__name,
         .todo__due {
             color: #aaa;
+        }
+        .todo__date {
             text-decoration: line-through;
         }
     }

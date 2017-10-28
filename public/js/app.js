@@ -30262,7 +30262,11 @@ var Todo = function (_Component) {
                         { className: 'icon' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-clock-o' })
                     ),
-                    this.formatDate()
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'span',
+                        { className: 'todo__date' },
+                        this.formatDate()
+                    )
                 );
             } else {
                 dueElement = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

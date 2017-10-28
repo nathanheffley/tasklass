@@ -229,7 +229,9 @@ export default class Todo extends Component {
                     <span className="icon">
                         <i className="fa fa-clock-o"></i>
                     </span>
-                    {this.formatDate()}
+                    <span className="todo__date">
+                        {this.formatDate()}
+                    </span>
                 </span>
             );
         } else {
