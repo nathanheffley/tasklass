@@ -89,7 +89,9 @@ span.is-danger {
 
     &.completed {
         color: #aaa;
-        .todo__name,
+        .todo__name {
+            text-decoration: line-through;
+        }
         .todo__due {
             color: #aaa;
         }

@@ -13228,7 +13228,10 @@ span.is-danger {
   color: #aaa;
 }
 
-.todo.completed .todo__name,
+.todo.completed .todo__name {
+  text-decoration: line-through;
+}
+
 .todo.completed .todo__due {
   color: #aaa;
 }
