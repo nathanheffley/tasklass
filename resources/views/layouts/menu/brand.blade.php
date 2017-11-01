@@ -1,5 +1,5 @@
 <div class="navbar-brand">
-    <a class="navbar-item title is-4 is-marginless" href="/">TODO</a>
+    <a class="navbar-item title is-4 is-marginless" href="/">TASKLASS</a>
     @if (Auth::check())
         <div class="navbar-item is-hidden-desktop flex-right">
             <div class="field is-grouped">
