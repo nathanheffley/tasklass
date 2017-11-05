@@ -272,9 +272,9 @@ export default class TodoList extends Component {
                                     .map(key => <Todo key={key} id={key} details={this.state.todos[key]} removeTodo={this.removeTodo} updateTodo={this.updateTodo} />)
                             }
                         </ul>
+                        <AddTodo addTodo={this.addTodo} />
                     </div>
                 </section>
-                <AddTodo addTodo={this.addTodo} />
             </div>
         );
     }
