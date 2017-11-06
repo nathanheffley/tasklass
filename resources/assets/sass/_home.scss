@@ -1,0 +1,86 @@
+.promo {
+    font-size: 2rem;
+    line-height: 1.5;
+
+    &--simple {
+        background: url(/images/todos.png);
+        background-position: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+
+        @media (max-width: 399px) {
+            padding-bottom: 60vw;
+        }
+
+        @media (min-width: 400px) {
+            background-size: 400px auto;
+
+            @media (max-width: 679px) {
+                padding-bottom: 240px;
+            }
+        }
+
+        @media (min-width: 680px) {
+            background-size: 300px auto;
+            
+            .container {
+                padding-right: 40vw;
+
+                @media (min-width: 1080px) {
+                    padding-right: 300px;
+                }
+            }
+        }
+
+        @media (min-width: 1260px) {
+            background-size: 400px auto;
+            padding-bottom: 100px;
+            padding-top: 100px;
+        }
+    }
+
+    // &--due {
+    //     background: green;
+    // }
+
+    // &--offline {
+    //     background: yellow;
+    // }
+}
+
+.cta {
+    background: $blue;
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+
+    &__button {
+        margin-top: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .container {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+        &__button {
+            margin-top: 0;
+        }
+    }
+
+    @media (min-width: 800px) {
+        font-size: 3.5rem;
+
+        &__button.is-large {
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 800px !important;
+        }
+    }
+}
