@@ -13213,6 +13213,71 @@ label.panel-block:hover {
   }
 }
 
+.footer h2 {
+  text-align: center;
+}
+
+.footer .columns {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.signature {
+  text-transform: uppercase;
+  width: 135px;
+  margin: 0 auto;
+}
+
+.signature__made,
+.signature__heart {
+  display: block;
+  font-size: 1.2em;
+  letter-spacing: .1em;
+  word-spacing: .6em;
+}
+
+.signature__heart {
+  margin-right: 2px;
+  padding-left: 2px;
+  position: relative;
+  text-align: center;
+}
+
+.signature__heart::after,
+.signature__heart::before {
+  content: "";
+  display: block;
+  background-color: #333;
+  width: 42px;
+  height: 2px;
+  position: absolute;
+  top: 12px;
+}
+
+.signature__heart::before {
+  left: 0;
+}
+
+.signature__heart::after {
+  right: 0;
+}
+
+.signature i {
+  margin-top: 4px;
+}
+
+.signature a {
+  color: #3273dc;
+}
+
+.signature a:hover,
+.signature a:focus,
+.signature a:active {
+  color: #4a4a4a;
+  text-decoration: underline;
+}
+
 .is-link {
   -webkit-text-decoration-skip: ink;
           text-decoration-skip: ink;

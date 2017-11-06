@@ -31,10 +31,17 @@
     </section> -->
     <footer class="footer">
         <div class="container">
-            <div class="content has-text-centered">
-                <p>
-                    <strong>TASKLASS</strong> by <a href="https://www.nathanheffley.com">Nathan Heffley</a>.
-                </p>
+            <div class="columns">
+                <div class="column is-6">
+                    <h2 class="title">TASKLASS</h2>
+                </div>
+                <div class="column is-6">
+                    <p class="signature">
+                        <span class="signature__made">Made with</span>
+                        <span class="signature__heart"><i class="fa fa-heart"></i></span>
+                        <a href="https://www.nathanheffley.com">Nathan Heffley</a>
+                    </p>
+                </div>
             </div>
         </div>
     </footer>

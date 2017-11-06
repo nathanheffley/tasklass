@@ -84,3 +84,64 @@
         }
     }
 }
+
+.footer h2 {
+    text-align: center;
+}
+
+.footer .columns {
+    align-items: center;
+}
+
+.signature {
+    text-transform: uppercase;
+    width: 135px;
+    margin: 0 auto;
+
+    &__made,
+    &__heart {
+        display: block;
+        font-size: 1.2em;
+        letter-spacing: .1em;
+        word-spacing: .6em;
+    }
+
+    &__heart {
+        margin-right: 2px;
+        padding-left: 2px;
+        position: relative;
+        text-align: center;
+
+        &::after,
+        &::before {
+            content: "";
+            display: block;
+            background-color: #333;
+            width: 42px;
+            height: 2px;
+            position: absolute;
+            top: 12px;
+        }
+        &::before {
+            left: 0;
+        }
+        &::after {
+            right: 0;
+        }
+    }
+
+    i {
+        margin-top: 4px;
+    }
+
+    a {
+        color: $blue;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: $text;
+            text-decoration: underline;
+        }
+    }
+}
