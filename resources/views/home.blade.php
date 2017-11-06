@@ -1,13 +1,6 @@
 @extends('layouts.master')
 
 @section('body')
-    <section class="hero is-primary is-bold">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">the simple task list</h1>
-            </div>
-        </div>
-    </section>
     <section class="section promo promo--simple">
         <div class="container">
             <p>Keep track of what you need to do - nothing else.</p>
