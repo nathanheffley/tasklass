@@ -1,3 +1,8 @@
+.divider {
+    background: $primary;
+    height: 10px;
+}
+
 .promo {
     font-size: 2rem;
     line-height: 1.5;
@@ -39,9 +44,47 @@
         }
     }
 
-    // &--due {
-    //     background: green;
-    // }
+    &--due {
+        background: url(/images/duedates.png);
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+
+        @media (max-width: 399px) {
+            padding-bottom: 50vw;
+        }
+
+        @media (min-width: 400px) {
+            background-size: 400px auto;
+
+            @media (max-width: 679px) {
+                padding-bottom: 190px;
+            }
+        }
+
+        @media (min-width: 680px) {
+            background-size: 300px auto;
+            background-position: 0 50%;
+
+            .container {
+                padding-left: 45vw;
+
+                @media (min-width: 1080px) {
+                    padding-left: 300px;
+                }
+            }
+        }
+
+        @media (min-width: 1260px) {
+            background-size: 400px auto;
+            padding-bottom: 100px;
+            padding-top: 100px;
+
+            .container {
+                padding-left: 450px;
+            }
+        }
+    }
 
     // &--offline {
     //     background: yellow;

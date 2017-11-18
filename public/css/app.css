@@ -13114,6 +13114,11 @@ label.panel-block:hover {
   clip: auto;
 }
 
+.divider {
+  background: #00d1b2;
+  height: 10px;
+}
+
 .promo {
   font-size: 2rem;
   line-height: 1.5;
@@ -13165,6 +13170,60 @@ label.panel-block:hover {
     background-size: 400px auto;
     padding-bottom: 100px;
     padding-top: 100px;
+  }
+}
+
+.promo--due {
+  background: url(/images/duedates.png);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+@media (max-width: 399px) {
+  .promo--due {
+    padding-bottom: 50vw;
+  }
+}
+
+@media (min-width: 400px) {
+  .promo--due {
+    background-size: 400px auto;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 679px) {
+  .promo--due {
+    padding-bottom: 190px;
+  }
+}
+
+@media (min-width: 680px) {
+  .promo--due {
+    background-size: 300px auto;
+    background-position: 0 50%;
+  }
+
+  .promo--due .container {
+    padding-left: 45vw;
+  }
+}
+
+@media (min-width: 680px) and (min-width: 1080px) {
+  .promo--due .container {
+    padding-left: 300px;
+  }
+}
+
+@media (min-width: 1260px) {
+  .promo--due {
+    background-size: 400px auto;
+    padding-bottom: 100px;
+    padding-top: 100px;
+  }
+
+  .promo--due .container {
+    padding-left: 450px;
   }
 }
 

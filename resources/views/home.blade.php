@@ -6,11 +6,12 @@
             <p>Keep track of what you need to do - nothing else.</p>
         </div>
     </section>
-    <!-- <section class="section promo promo--due">
+    <div class="divider"></div>
+    <section class="section promo promo--due">
         <div class="container">
             <p>Due date? Task lass has you covered so you don't miss anything.</p>
         </div>
-    </section> -->
+    </section>
     <section class="section cta">
         <div class="container">
             <p class="cta__text">No Fluff<br>Just Task Stuff</p>
