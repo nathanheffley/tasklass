@@ -1,4 +1,4 @@
-var CACHE_NAME = 'todo-cache-v1';
+var CACHE_NAME = 'todo-cache-v2';
 var urlsToCache = [
     'favicon.ico',
     '/css/app.css',
@@ -11,6 +11,18 @@ self.addEventListener('install', function(event) {
             .then(function(cache) {
                 return cache.addAll(urlsToCache);
             })
+    );
+});
+
+self.addEventListener('activiate', function(event) {
+    event.waitUntil(
+        caches.keys().then(keys => Promise.all(
+            keys.map(key => {
+                if (key !== CACHE_NAME) {
+                    return caches.delete(key);
+                }
+            })
+        ))
     );
 });
 
