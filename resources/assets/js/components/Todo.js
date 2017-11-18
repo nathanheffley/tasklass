@@ -161,7 +161,19 @@ export default class Todo extends Component {
     }
 
     formatDate() {
-        return window.moment(this.state.due).format('MMM Do YYYY');
+        let due = window.moment(this.state.due);
+        let dueHours = window.moment().diff(due, 'hours');
+        let dueDays = window.moment().diff(due, 'days');
+
+        if (dueHours >= 0 && dueHours <= 24) {
+            due = "Today";
+        } else if (dueDays <= 0 && dueDays >= -5) {
+            due = due.format('dddd');
+        } else {
+            due = due.format('MMM Do YYYY');
+        }
+
+        return due;
     }
 
     render() {

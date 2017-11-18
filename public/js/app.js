@@ -30165,7 +30165,19 @@ var Todo = function (_Component) {
     }, {
         key: 'formatDate',
         value: function formatDate() {
-            return window.moment(this.state.due).format('MMM Do YYYY');
+            var due = window.moment(this.state.due);
+            var dueHours = window.moment().diff(due, 'hours');
+            var dueDays = window.moment().diff(due, 'days');
+
+            if (dueHours >= 0 && dueHours <= 24) {
+                due = "Today";
+            } else if (dueDays <= 0 && dueDays >= -5) {
+                due = due.format('dddd');
+            } else {
+                due = due.format('MMM Do YYYY');
+            }
+
+            return due;
         }
     }, {
         key: 'render',
