@@ -93,4 +93,22 @@ class CreateTodosTest extends TestCase
             $this->assertEquals(0, $todo->weight);
         });
     }
+
+    /** @test */
+    public function usersMustConfirmTheirEmailAddressBeforeCreatingTodos()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = factory(User::class)->create();
+
+        $dueDate = Carbon::now()->addDays(5)->toDateTimeString();
+
+        $response = $this->actingAs($user)->post('/todos', [
+            'name' => 'Sample Todo',
+            'due' => $dueDate,
+            'weight' => 3,
+        ]);
+
+        $response->assertRedirect('/confirmation');
+    }
 }

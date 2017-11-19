@@ -24,6 +24,6 @@ Route::post('/register', 'Auth\RegisterController@register');
 
 Route::get('/todos', 'TodosController@index');
 Route::get('/todos.json', 'TodosController@indexJson');
-Route::post('/todos', 'TodosController@store');
+Route::post('/todos', 'TodosController@store')->middleware('must-be-confirmed');
 Route::put('/todos/{id}', 'TodosController@update');
 Route::delete('/todos/{id}', 'TodosController@archive');
