@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CreateTodosTest extends TestCase
+class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
