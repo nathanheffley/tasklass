@@ -16,6 +16,16 @@ class RedirectIfEmailNotConfirmed
      */
     public function handle($request, Closure $next)
     {
+        if (! $request->user()) {
+            if ($request->wantsJson()) {
+                return response()->json(['errors' => new MessageBag([
+                    'authorization' => 'Please login before trying to access Task Lass!',
+                ])], 403);
+            }
+
+            return redirect('/login');
+        }
+
         if ($request->user()->confirmed) {
             return $next($request);
         }

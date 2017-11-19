@@ -22,7 +22,7 @@ class UserRegisterTest extends TestCase
             'password_confirmation' => 'secret',
         ]);
 
-        $response->assertRedirect('/todos');
+        $response->assertRedirect('/register/confirm');
         $this->assertTrue(Auth::check(), 'Failed asserting that the user was successfully logged in after registration.');
     }
 

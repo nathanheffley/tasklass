@@ -18,6 +18,8 @@ class UpdateTodosTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutExceptionHandling();
+
         Collection::macro('assertContains', function ($value) {
             Assert::assertTrue($this->contains($value), 'Failed asserting that the collection contains the specified value.');
         });
@@ -30,8 +32,7 @@ class UpdateTodosTest extends TestCase
     /** @test */
     public function completingATodo()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
             'completed' => false,
@@ -56,8 +57,7 @@ class UpdateTodosTest extends TestCase
     /** @test */
     public function markingATodoIncomplete()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
             'completed' => true,
@@ -82,8 +82,7 @@ class UpdateTodosTest extends TestCase
     /** @test */
     public function renamingTodo()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
             'name' => 'Old Name Todo',
@@ -108,12 +107,10 @@ class UpdateTodosTest extends TestCase
     /** @test */
     public function movingTodosDueDate()
     {
-        $this->withoutExceptionHandling();
-
         $oldDueDate = Carbon::now()->addDays(5)->toDateTimeString();
         $newDueDate = Carbon::now()->addDays(10)->toDateTimeString();
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
             'due' => $oldDueDate,
@@ -138,8 +135,7 @@ class UpdateTodosTest extends TestCase
     /** @test */
     public function archivingTodo()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todo = factory(Todo::class)->create([
             'user_id' => $user->id,
         ]);
@@ -158,8 +154,7 @@ class UpdateTodosTest extends TestCase
      */
     public function archivingNonexistantTodoThrowsNotFoundException()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
 
         $response = $this->actingAs($user)->delete('/todos/1');
     }

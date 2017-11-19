@@ -18,7 +18,7 @@ class CreateTodosTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
 
         $dueDate = Carbon::now()->addDays(5)->toDateTimeString();
 
@@ -49,11 +49,11 @@ class CreateTodosTest extends TestCase
     /** @test */
     public function guestsCannotAddNewTodos()
     {
-        $response = $this->post('/todos', [
+        $response = $this->json('POST', '/todos', [
             'name' => 'Sample Todo',
         ]);
 
-        $response->assertStatus(401);
+        $response->assertStatus(403);
         $this->assertTrue($response->original['errors']->has('authorization'));
         $this->assertEquals(0, Todo::count(), 'Failed asserting that the todo was not created.');
     }
@@ -61,7 +61,7 @@ class CreateTodosTest extends TestCase
     /** @test */
     public function nameIsRequired()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
 
         $response = $this->actingAs($user)->post('/todos', [
             'name' => '',
@@ -75,8 +75,7 @@ class CreateTodosTest extends TestCase
     /** @test */
     public function weightIsOptional()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
 
         $response = $this->actingAs($user)->post('/todos', [
             'name' => 'Sample Todo',

@@ -34,8 +34,8 @@ class ViewTodosTest extends TestCase
     /** @test */
     public function userCanOnlyViewTheirOwnTodos()
     {
-        $user = factory(User::class)->create();
-        $otherUser = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
+        $otherUser = factory(User::class)->states(['confirmed'])->create();
         $todoA = factory(Todo::class)->create(['user_id' => $user->id]);
         $todoB = factory(Todo::class)->create(['user_id' => $otherUser->id]);
         $todoC = factory(Todo::class)->create(['user_id' => $user->id]);
@@ -62,7 +62,7 @@ class ViewTodosTest extends TestCase
     public function todosCanBeRetrievedAsJson()
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states(['confirmed'])->create();
         $todoA = factory(Todo::class)->create(['user_id' => $user->id]);
         $todoB = factory(Todo::class)->create(['user_id' => $user->id]);
         $todoC = factory(Todo::class)->create(['user_id' => $user->id]);

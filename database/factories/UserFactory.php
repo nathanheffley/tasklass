@@ -12,3 +12,9 @@ $factory->define(App\User::class, function (Faker $faker) {
         'confirmed' => false,
     ];
 });
+
+$factory->state(App\User::class, 'confirmed', function (Faker $faker) {
+    return [
+        'confirmed' => true,
+    ];
+});
