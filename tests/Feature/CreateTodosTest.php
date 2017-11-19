@@ -101,14 +101,12 @@ class CreateTodosTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $dueDate = Carbon::now()->addDays(5)->toDateTimeString();
-
-        $response = $this->actingAs($user)->post('/todos', [
+        $response = $this->actingAs($user)->json('POST', '/todos', [
             'name' => 'Sample Todo',
-            'due' => $dueDate,
+            'due' => Carbon::now(),
             'weight' => 3,
         ]);
 
-        $response->assertRedirect('/confirmation');
+        $response->assertStatus(403);
     }
 }

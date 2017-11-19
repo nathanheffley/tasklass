@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\MessageBag;
 
 class RedirectIfEmailNotConfirmed
 {
@@ -15,10 +16,16 @@ class RedirectIfEmailNotConfirmed
      */
     public function handle($request, Closure $next)
     {
-        if (! $request->user()->confirmed) {
-            return redirect('/confirmation');
+        if ($request->user()->confirmed) {
+            return $next($request);
         }
 
-        return $next($request);
+        if ($request->wantsJson()) {
+            return response()->json(['errors' => new MessageBag([
+                'authorization' => 'Please confirm your email before using Task Lass!',
+            ])], 403);
+        }
+
+        return redirect('/confirmation');
     }
 }
