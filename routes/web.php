@@ -23,8 +23,8 @@ Route::get('/register', 'Auth\RegisterController@show');
 Route::post('/register', 'Auth\RegisterController@register');
 Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index');
 
-Route::get('/todos', 'TodosController@index');
-Route::get('/todos.json', 'TodosController@indexJson');
+Route::get('/todos', 'TodosController@index')->middleware('must-be-confirmed');;
+Route::get('/todos.json', 'TodosController@indexJson')->middleware('must-be-confirmed');;
 Route::post('/todos', 'TodosController@store')->middleware('must-be-confirmed');
-Route::put('/todos/{id}', 'TodosController@update');
-Route::delete('/todos/{id}', 'TodosController@archive');
+Route::put('/todos/{id}', 'TodosController@update')->middleware('must-be-confirmed');;
+Route::delete('/todos/{id}', 'TodosController@archive')->middleware('must-be-confirmed');;
