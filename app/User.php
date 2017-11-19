@@ -15,7 +15,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'confirmation_token',
     ];
 
     /**
@@ -24,8 +27,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
+
+    protected $casts = [
+        'confirmed' => 'boolean',
+    ];
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+
+        $this->save();
+    }
 
     public function todos()
     {

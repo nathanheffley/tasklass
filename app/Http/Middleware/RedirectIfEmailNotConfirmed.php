@@ -26,6 +26,6 @@ class RedirectIfEmailNotConfirmed
             ])], 403);
         }
 
-        return redirect('/confirmation');
+        return redirect('/register/confirm');
     }
 }

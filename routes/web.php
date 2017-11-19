@@ -21,6 +21,7 @@ Route::post('/logout', 'Auth\LoginController@logout');
 
 Route::get('/register', 'Auth\RegisterController@show');
 Route::post('/register', 'Auth\RegisterController@register');
+Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index');
 
 Route::get('/todos', 'TodosController@index');
 Route::get('/todos.json', 'TodosController@indexJson');
